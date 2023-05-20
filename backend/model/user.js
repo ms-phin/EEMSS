@@ -32,22 +32,63 @@ const UserSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    avatar: {
-        required: false,
-        type: String
-    },
+    // avatar: {
+    //     required: false,
+    //     type: String
+    // },
     role: {
         type: String,
         required: true,
-        default: "STUDENT",
-    },
 
+    },
+    blocked: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now(),
     },
+    departmentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Department',
+        required: true
+    },
+    students: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    questions: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Question'
+    }],
+
     resetPasswordToken: String,
     resetPasswordTime: Date,
+
+});
+
+UserSchema.virtual('id').get(function () { return this._id.toHexString(); });
+UserSchema.set('toJSON', { virtuals: true });
+
+UserSchema.virtual('department', {
+    ref: 'Department',
+    localField: 'departmentId',
+    foreignField: '_id',
+    justOne: true
+});
+
+UserSchema.virtual('myStudents', {
+    ref: 'User',
+    localField: '_id',
+    foreignField: 'teacherId',
+    options: { match: { role: 'student' } }
+});
+
+UserSchema.virtual('myquestions', {
+    ref: 'Question',
+    localField: '_id',
+    foreignField: 'teacherId'
 });
 
 //hash password 
@@ -59,5 +100,9 @@ UserSchema.methods.getJwtToken = function () {
         expiresIn: process.env.JWT_EXPIRES
     })
 }
+UserSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password)
+}
+
 
 module.exports = mongoose.model("User", UserSchema);
