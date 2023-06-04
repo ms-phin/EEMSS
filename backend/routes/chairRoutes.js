@@ -14,7 +14,9 @@ const { seeStudent,
     getExams,
     createStudentExam,
     updateStudentExam,
-    getStudentExamById } = require("../controller/chaircontroller");
+    getStudentExamById,
+    getExamById,
+    updateExam } = require("../controller/chaircontroller");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 // const { registerTeacher } = require("../controller/usercontroller");
 
@@ -34,9 +36,12 @@ router.route("/registerStudent").post(isAuthenticatedUser, authorizeRoles("chair
 router.route("/getAllQuestion/:id").get(isAuthenticatedUser, authorizeRoles("chair"), getAllQuestion);
 router.route("/createExam").post(isAuthenticatedUser, authorizeRoles("chair"), createExam);
 router.route("/getExams").get(isAuthenticatedUser, authorizeRoles("chair"), getExams);
+router.route("/updateExam/:id").put(isAuthenticatedUser, authorizeRoles("chair"), updateExam);
+router.route("/getExamById/:id").get(isAuthenticatedUser, authorizeRoles("chair"), getExamById);
 router.route("/createStudentExam").post(isAuthenticatedUser, authorizeRoles("chair"), createStudentExam);
 router.route("/updateStudentExam/:id").put(isAuthenticatedUser, authorizeRoles("chair"), updateStudentExam);
 router.route("/getStudentExamById/:id").get(isAuthenticatedUser, authorizeRoles("chair"), getStudentExamById);
+
 
 
 

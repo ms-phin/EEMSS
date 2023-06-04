@@ -72,15 +72,15 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true
     },
-    contact: {
+    password: {
+        type: String,
+        required: true
+    },
+    confirmPassword: {
         type: String,
         required: true,
         unique: true
@@ -88,6 +88,10 @@ const TeacherSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true
+    },
+    imageurl: {
+        type: String,
+        requred: true
     },
     departmentId: {
         type: mongoose.Schema.Types.ObjectId,

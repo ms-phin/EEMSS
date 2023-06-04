@@ -5,7 +5,9 @@ const FacultySchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "please enter your faculty"],
-        unique: true
+        unique: true,
+        minlength: 3,
+        maxlength: 50
     },
     departments: [{
         type: mongoose.Schema.Types.ObjectId,

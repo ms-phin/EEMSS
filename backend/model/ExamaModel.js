@@ -3,7 +3,15 @@ const { Schema } = mongoose
 const examSchema = new Schema({
     departmentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Department',
+        ref: 'Department'
+    },
+    courseId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course',
+        required: true
+    },
+    numberofquestion: {
+        type: Number,
         required: true
     },
     questions: [{
@@ -12,10 +20,17 @@ const examSchema = new Schema({
     }],
     students: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student'
+        ref: 'Student',
+        required: false
     }]
 
 });
 
 module.exports = mongoose.model('Exam', examSchema);
 
+
+        // departmentID: {
+        //     type: mongoose.Schema.Types.ObjectId,
+        //     ref: 'Department',
+        //     required: true
+        // },

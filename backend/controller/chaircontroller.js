@@ -6,6 +6,7 @@ const Student = require("../model/student");
 const Course = require("../model/CourseModel");
 const Exam = require('../model/ExamaModel');
 const Question = require('../model/questionModel');
+const Chair = require("../model/chairModel")
 const StudentExam = require("../model/StudentExam");
 // const StudentExam = require('../model/studentExam');
 
@@ -14,53 +15,53 @@ const StudentExam = require("../model/StudentExam");
 // const { sendTokenUser } = require("../utils/jwtToken");
 
 
-exports.registerStudent = async (req, res) => {
-    try {
+// exports.registerStudent = async (req, res) => {
+//     try {
 
-        const body = req.body;
-        // console.log(body);
+//         const body = req.body;
+//         // console.log(body);
 
-        if (!body) {
-            return res.status(400).json({
-                success: false,
-                error: "Fill Required Details",
-            });
-        }
-        var user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            contact: req.body.contact,
-            password: req.body.password,
-            role: "student",
-            faculty: req.body.faculty
-
-
-        });
+//         if (!body) {
+//             return res.status(400).json({
+//                 success: false,
+//                 error: "Fill Required Details",
+//             });
+//         }
+//         var user = new User({
+//             name: req.body.name,
+//             email: req.body.email,
+//             contact: req.body.contact,
+//             password: req.body.password,
+//             role: "student",
+//             faculty: req.body.faculty
 
 
-        const users = await User.find({ email: req.body.email });
-
-        if (users.length != 0) {
-            console.log("already user with this email");
-            res.json({ msg: "already user exist with this email!" });
-        }
-        else {
-            const registeredUser = await user.save()
-            // sendTokenUser(registeredUser, 201, res)
-
-            res.status(201).json({
-                success: true,
-                user
-            })
+//         });
 
 
-        }
-    } catch (err) {
-        console.log(err.message);
-        res.status(500).send("Error in Saving");
+//         const users = await User.find({ email: req.body.email });
 
-    }
-}
+//         if (users.length != 0) {
+//             console.log("already user with this email");
+//             res.json({ msg: "already user exist with this email!" });
+//         }
+//         else {
+//             const registeredUser = await user.save()
+//             // sendTokenUser(registeredUser, 201, res)
+
+//             res.status(201).json({
+//                 success: true,
+//                 user
+//             })
+
+
+//         }
+//     } catch (err) {
+//         console.log(err.message);
+//         res.status(500).send("Error in Saving");
+
+//     }
+// }
 
 
 // exports.createChair = async (req, res) => {
@@ -148,19 +149,76 @@ exports.registerStudent = async (req, res) => {
 //     }
 // }
 ///REGISRATIN OF TEACHER
+// exports.registerTeacher = async (req, res) => {
+//     try {
+//         const { name, email, contact, password, departmentId, courseId } = req.body;
+
+//         // Check if department exists
+//         const existingDepartment = await Department.findById(departmentId);
+//         if (!existingDepartment) {
+//             return res.status(404).json({ error: 'Department not found' });
+//         }
+//         const existingCourse = await Course.findById(courseId);
+//         if (!existingCourse) {
+//             return res.status(404).json({ error: 'course not found' });
+
+//         }
+
+//         // Create new teacher
+//         const teacher = new Teacher({
+//             name,
+//             email,
+//             contact,
+//             password,
+//             role: 'teacher',
+//             departmentId,
+//             courseId
+//         });
+
+//         // Save teacher to database
+//         await teacher.save();
+
+//         // Add teacher to department
+//         // await User.findByIdAndUpdate(departmentId, { $push: { students: student._id } });
+//         existingDepartment.teachers.push(teacher._id);
+//         await existingDepartment.save();
+//         existingCourse.teachers.push(teacher._id);
+//         await existingCourse.save();
+
+
+//         res.status(201).json({
+//             message: 'Teacher created successfully',
+//             teacher
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Server error' });
+//     }
+// };
 exports.registerTeacher = async (req, res) => {
     try {
         const { name, email, contact, password, departmentId, courseId } = req.body;
 
         // Check if department exists
-        const existingDepartment = await Department.findById(departmentId);
+        const existingDepartment = await Department.findById(departmentId).populate('chairId');
+        console.log("existingDepartment", req.user._id)
+        console.log("existingDepartment", existingDepartment.chairId._id)
+
+
         if (!existingDepartment) {
             return res.status(404).json({ error: 'Department not found' });
         }
+
+        // Check if authenticated user is the chair of the department
+        // Check if authenticated user is the chair of the department
+        if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'You are not authorized to add a teacher to this department' });
+        }
+
+        // Check if course exists
         const existingCourse = await Course.findById(courseId);
         if (!existingCourse) {
-            return res.status(404).json({ error: 'course not found' });
-
+            return res.status(404).json({ error: 'Course not found' });
         }
 
         // Create new teacher
@@ -171,23 +229,21 @@ exports.registerTeacher = async (req, res) => {
             password,
             role: 'teacher',
             departmentId,
-            courseId
+            courseId,
         });
 
         // Save teacher to database
         await teacher.save();
 
         // Add teacher to department
-        // await User.findByIdAndUpdate(departmentId, { $push: { students: student._id } });
         existingDepartment.teachers.push(teacher._id);
         await existingDepartment.save();
         existingCourse.teachers.push(teacher._id);
         await existingCourse.save();
 
-
         res.status(201).json({
             message: 'Teacher created successfully',
-            teacher
+            teacher,
         });
     } catch (error) {
         console.error(error);
@@ -196,16 +252,31 @@ exports.registerTeacher = async (req, res) => {
 };
 
 
-
 ///REGISTRATION STUDENT
 exports.registerStudent = async (req, res) => {
     try {
-        const { name, email, password, contact, departmentId } = req.body;
+        const { username, email, password, confrimepassword, departmentId } = req.body;
+
+        // Check if department exists
+        const existingDepartment = await Department.findById(departmentId).populate('chairId');
+        console.log("existingDepartment", req.user._id)
+        console.log("existingDepartment", existingDepartment.chairId._id)
+
+
+        if (!existingDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        // Check if authenticated user is the chair of the department
+        // Check if authenticated user is the chair of the department
+        if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'You are not authorized to add a Student to this department' });
+        }
         const student = new Student({
-            name,
+            username,
             email,
             password,
-            contact,
+            confrimepassword,
             role: 'student',
             departmentId
         });
@@ -295,29 +366,61 @@ exports.UpdateTeacher = async (req, res) => {
 //UPDATING TAECHER
 
 
+// exports.seeStudent = async (req, res) => {
+//     console.log(req.user.departmentId);
+
+//     try {
+//         const usr = await Student.find({ role: "student" })
+//         if (req.user.departmentId === usr.departmentId) {
+//             console.log(usr.departmentId);
+
+//             if (!usr) {
+//                 res.status(404).json({ msg: "No student found" });
+//             }
+//             else {
+//                 res.json({ students: usr });
+//             }
+//         } else {
+//             console.log("something went wrong")
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({ msg: "Server Error" });
+//     }
+// }
 exports.seeStudent = async (req, res) => {
     try {
-        const usr = await Student.find({ role: "student" });
-        if (!usr) {
-            res.status(404).json({ msg: "No student found" });
-        }
-        else {
-            res.json({ students: usr });
+        const students = await Student.find({ departmentId: req.user.departmentId, role: "student" }).populate('departmentId');
+        if (students.length === 0) {
+            res.status(404).json({ msg: "No students found for the given department" });
+        } else {
+            res.json({ students });
         }
     } catch (error) {
         console.log(error);
         res.status(500).json({ msg: "Server Error" });
     }
-}
+};
 
 exports.seeTeacher = async (req, res) => {
-    const usr = await Teacher.find({ role: "teacher" })
-    if (!usr) {
+    // const usr = await Teacher.find({ role: "teacher" })
+    // if (!usr) {
+    //     console.log(error);
+    //     res.json({ msg: "some error!" });
+    // }
+    // else {
+    //     res.json({ user: usr });
+    // }
+    try {
+        const teachers = await Teacher.find({ departmentId: req.user.departmentId, role: "teacher" }).populate('departmentId');
+        if (teachers.length === 0) {
+            res.status(404).json({ msg: "No students found for the given department" });
+        } else {
+            res.json({ teachers });
+        }
+    } catch (error) {
         console.log(error);
-        res.json({ msg: "some error!" });
-    }
-    else {
-        res.json({ user: usr });
+        res.status(500).json({ msg: "Server Error" });
     }
 
 }
@@ -354,7 +457,7 @@ exports.deleteTeacher = async (req, res) => {
 
 
 exports.updateTeacher = async (req, res) => {
-    let user = await User.findById(req.params.id,);
+    let user = await User.findById(req.params.id);
     if (!user) {
         return res.status(500).json({
             success: false,
@@ -428,23 +531,67 @@ exports.blockStudent = (req, res) => {
 
 
 
+// exports.createExam = async (req, res) => {
+//     const { courseId, numberOfQuestion, students } = req.body;
+//     try {
+//         const { departmentId } = req.body;
+//         const department = await Department.findById(departmentId);
+
+//         const courses = await Course.find({ departmentId: departmentId });
+//         if (courses.length === 0) {
+//             return res.status(400).json({ message: 'No courses found for the specified department' });
+//         }
+
+//         const selectedQuestions = [];
+//         for (const course of courses) {
+//             const questions = course.questions.slice(0, 5); // select 5 questions from each course
+//             selectedQuestions.push(...questions);
+//         }
+//         const exam = new Exam({
+//             departmentId: department._id,
+//             questions: selectedQuestions,
+//         });
+
+//         await exam.save();
+
+//         res.status(201).json({ exam });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// }
+// Create an exam
+// Create an exam
+
+
 exports.createExam = async (req, res) => {
+    const { departmentId, courseId, numberofquestion } = req.body;
+
+    // Validate request body
+    if (!courseId || !numberofquestion || !departmentId) {
+        return res.status(400).json({ message: 'Please provide a course ID,departmentId and number of questions' });
+    }
+
     try {
         const { departmentId } = req.body;
         const department = await Department.findById(departmentId);
+        console.log(department)
 
-        const courses = await Course.find({ departmentId: departmentId });
-        if (courses.length === 0) {
-            return res.status(400).json({ message: 'No courses found for the specified department' });
+        const course = await Course.findById(courseId).populate('questions');
+
+        if (!course) {
+            return res.status(400).json({ message: 'No course found for the specified ID' });
         }
 
-        const selectedQuestions = [];
-        for (const course of courses) {
-            const questions = course.questions.slice(0, 5); // select 5 questions from each course
-            selectedQuestions.push(...questions);
+        if (numberofquestion > course.questions.length) {
+            return res.status(400).json({ message: 'The specified number of questions exceeds the number of questions in the course' });
         }
+
+        const selectedQuestions = course.questions.slice(0, numberofquestion);
         const exam = new Exam({
             departmentId: department._id,
+            courseId: course._id,
+            numberofquestion,
             questions: selectedQuestions,
         });
 
@@ -455,16 +602,105 @@ exports.createExam = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
+// View exam by ID
+exports.getExamById = async (req, res) => {
+    try {
+        const exam = await Exam.findById(req.params.id);
+
+        if (!exam) {
+            return res.status(404).json({ message: 'Exam not found' });
+        }
+
+        res.json({ exam });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+
 exports.getExams = async (req, res) => {
     try {
-        const exams = await Exam.find({}).populate('departmentId').populate('questions').exec();
+        const exams = await Exam.find({}).populate('courseId').exec();
         res.json({ exams });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+
+// Update exam by ID
+exports.updateExam = async (req, res) => {
+    // const { id } = req.params.id;
+    const { courseId, numberofquestion } = req.body;
+
+    // Validate request body
+    if (!courseId || !numberofquestion) {
+        return res.status(400).json({ message: 'Please provide a course ID and number of questions' });
+    }
+
+    try {
+        const exam = await Exam.findById(req.params.id).populate('questions');
+
+        if (!exam) {
+            return res.status(400).json({ message: 'No exam found for the specified ID' });
+        }
+
+        const course = await Course.findById(courseId).populate('questions');
+
+        if (!course) {
+            return res.status(400).json({ message: 'No course found for the specified ID' });
+        }
+
+        if (numberofquestion > course.questions.length) {
+            return res.status(400).json({ message: 'The specified number of questions exceeds the number of questions in the course' });
+        }
+
+        const selectedQuestions = course.questions.slice(0, numberofquestion);
+
+        exam.courseId = course._id;
+        exam.numberofquestion = numberofquestion;
+        exam.questions = selectedQuestions;
+
+        await exam.save();
+
+        res.status(200).json({ exam });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
+// exports.updateExam = async (req, res) => {
+//     const { id } = req.params;
+//     const { courseId, numberofquestion, students } = req.body;
+
+//     // Validate request body
+//     if (!courseId || !numberofquestion) {
+//       return res.status(400).json({ message: 'Please provide a course ID and number of questions' });
+//     }
+
+//     try {
+//       const exam = await Exam.findById(examId);
+
+//       if (!exam) {
+//         return res.status(400).json({ message: 'No exam found for the specified ID' });
+//       }
+
+//       exam.courseId = courseId;
+//       exam.numberofquestion = numberofquestion;
+//       exam.students = students;
+
+//       await exam.save();
+
+//       res.status(200).json({ exam });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Internal server error' });
+//     }
+//   }
 
 
 
@@ -512,16 +748,27 @@ exports.getStudentExamById = (req, res, next) => {
 };
 
 // Create a new student exam
-exports.createStudentExam = (req, res, next) => {
+exports.createStudentExam = async (req, res, next) => {
+    const { departmentId } = req.body;
+    const exams = await Exam.find({ departmentId: departmentId });
+    if (exams.length === 0) {
+        return res.status(400).json({ message: 'No exams found for the specified department' });
+    }
+
+    const selectedQuestions = [];
+    for (const exam of exams) {
+        const questions = exam.questions; // select 5 questions from each course
+        selectedQuestions.push(...questions);
+    }
+
     const studentExam = new StudentExam({
-        title: req.body.title,
         totalMarks: req.body.totalMarks,
         marks_per_right_answer: req.body.marks_per_right_answer,
-        studentId: req.body.studentId,
-        examId: req.body.examId,
+        departmentId: req.body.departmentId,
         startTime: req.body.startTime,
-        endTime: req.body.endTime,
-        pending: req.body.pending,
+        duration: req.body.duration,
+        ActivateExam: req.body.ActivateExam,
+        totalQuestion: selectedQuestions,
     });
 
     studentExam
@@ -530,14 +777,14 @@ exports.createStudentExam = (req, res, next) => {
             res.status(201).json({
                 message: 'Created student exam successfully',
                 createdStudentExam: {
-                    title: result.title,
                     totalMarks: result.totalMarks,
                     marks_per_right_answer: result.marks_per_right_answer,
-                    studentId: result.studentId,
+                    departmentId: result.departmentId,
                     examId: result.examId,
                     startTime: result.startTime,
-                    endTime: result.endTime,
-                    pending: result.pending,
+                    duration: req.body.duration,
+                    ActivateExam: req.body.ActivateExam,
+                    totalQuestion: selectedQuestions,
                     _id: result._id,
                 },
             });

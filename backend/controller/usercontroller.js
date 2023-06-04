@@ -4,6 +4,7 @@ const Teacher = require("../model/teacherModel")
 const { sendTokenUser } = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Department = require('../model/Department')
+const Student = require("../model/student")
 const Course = require("../model/CourseModel")
 
 
@@ -85,6 +86,20 @@ exports.createCourse = (req, res) => {
         });
 };
 
+exports.getAllCourses = async (req, res) => {
+    try {
+        const courses = await Course.find();
+        res.status(200).json({
+            message: 'Courses fetched successfully',
+            courses: courses
+        });
+    } catch (error) {
+        res.status(500).json({
+            error: error
+        });
+    }
+};
+
 
 
 
@@ -143,13 +158,16 @@ exports.loginUser = async (req, res, next) => {
             user = await Teacher.findOne({ email }).select("+password");
         }
         if (!user) {
+            user = await Student.findOne({ email }).select("+password");
+        }
+        if (!user) {
             return next(new ErrorHandler("Invalid credentials", 401));
         }
         const isPasswordMatched = await user.comparePassword(password);
         if (!isPasswordMatched) {
             return next(new ErrorHandler("Invalid credentials", 401));
         }
-        console.log(user)
+        // console.log(user)
         sendTokenUser(user, 200, res);
     } catch (error) {
         return next(new ErrorHandler(error.message, 500));

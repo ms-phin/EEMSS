@@ -6,7 +6,10 @@ const bcrypt = require("bcryptjs");
 const chairSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: 3,
+        maxlength: 50
     },
     email: {
         type: String,

@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 
 const studentExamSchema = new mongoose.Schema({
 
-    title: {
-        type: String,
-        required: true
-    },
     totalMarks: {
         type: Number,
         required: true
@@ -15,49 +11,65 @@ const studentExamSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    studentId: {
+    departmentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Student',
+        ref: 'Department',
         required: true,
     },
-    examId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Exam',
-        required: true,
+    duration: {
+        type: Number,
+        required: true
     },
     startTime: {
         type: Date,
         required: true,
     },
-    endTime: {
-        type: Date,
+    ActivateExam: {
         required: true,
+        default: 1,
+        type: Boolean
     },
-    pending: {
-        type: Boolean,
-        default: true
-    }
+    totalQuestion: [{
+        type: Array,
+        required: false
+    }]
+
+
 });
 
 module.exports = mongoose.model('StudentExam', studentExamSchema);
 
 
-// resultId: {
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'Result',
-//     required: false
-// }
+
+// const studentExamSchema = new mongoose.Schema({
 
 
-
-// answers: [{
-//     questionId: {
-//         type: mongoose.Schema.Types.ObjectId,
-//         ref: 'Question',
-//         required: true,
+//     totalMarks: {
+//         type: Number,
+//         required: true
 //     },
-//     answer: {
+//     marks_per_right_answer:
+//     {
 //         type: String,
+//         required: true
+//     },
+//    tudentId: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: 'Student',
+//         required: true,
+//     }, s
+//     examId: {
+//         type: mongoose.Schema.Types.ObjectId,
+//         ref: 'Exam',
 //         required: true,
 //     },
-// }],
+//     duration: {
+//         type: Number,
+//         required: true
+//     },
+//     startTime: {
+//         type: Date,
+//         required: true,
+//     },
+
+

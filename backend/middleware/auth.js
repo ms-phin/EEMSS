@@ -1,6 +1,7 @@
 const ErrorHandler = require("../utils/ErrorHandler");
 const jwt = require("jsonwebtoken");
 const Teacher = require("../model/teacherModel");
+const Student = require("../model/student")
 const Chair = require("../model/chairModel");
 
 
@@ -20,6 +21,9 @@ exports.isAuthenticatedUser = async (req, res, next) => {
         user = await Teacher.findById(decodedData.id);
         if (!user) {
             user = await Chair.findById(decodedData.id);
+        }
+        if (!user) {
+            user = await Student.findById(decodedData.id);
         }
     }
 

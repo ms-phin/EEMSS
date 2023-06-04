@@ -1,0 +1,107 @@
+.formm {
+    width: 100vw;
+    height: 100vh;
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-image: url(https://img.freepik.com/free-vector/virtual-man-laptop-teaching-online_23-2148508675.jpg?size=626&ext=jpg&ga=GA1.1.353983474.1680810011&semt=robertav1_2_sidr.avif);
+    background-repeat: no-repeat;
+    background-position: left;
+    background-position-x: 5%;
+    background-size: 88vh;
+    position: fixed;
+    margin: auto;
+    margin-top: 1%;
+    top: 0%;
+    left: 0;
+}
+
+.log_form {
+    text-align: left;
+    padding: 20px 20px;
+    border: 2px solid #0000001a;
+    padding: 10px;
+    margin-right: 17%;
+    left: 0;
+    width: 30vw;
+    height: 80vh;
+    background-size: 100vh;
+    overflow: hidden;
+    box-shadow: 15px 15px 15px rgba(219, 213, 213, 0.2),
+        -15px 15px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: none;
+}
+
+.input_login {
+    background-color: whitesmoke;
+    height: 3px;
+    width: 50%;
+    border: none;
+    transition: all 0.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    margin-top: 15%;
+    padding: 2vmax;
+    justify-content: space-evenly;
+    transition: all 0.5s;
+    font-size: 100%;
+}
+
+.log_password {
+    margin-top: -10%;
+
+}
+
+.log_btn {
+    align-items: center;
+    border: none;
+    background-color: rgb(81, 152, 179);
+    color: white;
+    font: 300 1.8vmax "Roboto";
+    width: 50%;
+    padding: 0.8vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    margin: auto;
+    margin-top: 8%;
+    border-radius: 4px;
+    background-position-y: 10%;
+    background-position-x: 10%;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+}
+
+.log_btn:hover {
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #202020;
+}
+
+.forgot p {
+    display: flex;
+    height: 2vmax;
+    color: rgba(0, 0, 0, 0.651);
+    transition: all 0.5s;
+    cursor: pointer;
+    display: column;
+    place-items: right;
+    width: 100%;
+    margin: auto;
+    margin-top: 7%;
+    margin-left: 30%;
+    text-decoration: none;
+    transition: all 0.5s;
+    font-size: 100%;
+}
+
+.forgot pp {
+    margin: auto;
+    margin-top: 50%;
+
+}

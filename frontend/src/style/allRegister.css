@@ -1,0 +1,198 @@
+.form {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-image: url(https://img.freepik.com/free-vector/virtual-man-laptop-teaching-online_23-2148508675.jpg?size=626&ext=jpg&ga=GA1.1.353983474.1680810011&semt=robertav1_2_sidr.avif);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-position-x: 5%;
+  background-size: 88vh;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  margin: auto;
+  margin-top: -3%;
+}
+
+.form-body {
+  text-align: left;
+  padding: 20px 20px;
+  border: 2px solid #0000001a;
+  padding: 10px;
+  margin-right: 17%;
+  margin-top: -2%;
+  left: 0;
+  width: 30vw;
+  height: 100vh;
+  background-size: 100vh;
+  overflow: hidden;
+  box-shadow: 15px 15px 15px rgba(219, 213, 213, 0.2), 
+    -15px 15px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: none;
+}
+
+.header {
+  box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: bxaseline;
+  padding: 1px;
+  margin-bottom: 5px;
+  background-color: white;
+  margin: auto;
+  margin-top: -5%;
+  font: 200 "Gill Sans"; 
+}
+
+.header p {
+  font-size: 140%;
+}
+
+.head {
+  color: rgb(81, 152, 179);
+}
+
+.form-body > * {
+  padding: 5px;
+}
+
+.form__label {
+  transform: translateY(-100%) translateX(-100vmax);
+  width: 40%;
+  font: 100 1.8vmax "Gill Sans";
+  margin: auto;
+  margin-top: -10%;
+}
+
+.form__input {
+  width: 80%;
+  font: 500 1.5vmax "Gill Sans";
+  background-color: white;
+  background: none;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: 3px;
+  background-color: whitesmoke;
+
+  margin-bottom: 3px;
+  box-shadow: 15px 15px 15px white, 
+    -15px 15px 15px white;
+  border-radius: 10px; 
+  /* background-color: white; */
+  height: 5vh;
+  border: none;
+  transition: all 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top:5%;
+  padding: 2vmax;
+  justify-content: space-evenly;
+  transition: all 0.5s;
+  font-size: 100%;
+}
+
+.enter {
+  margin: auto;
+  margin-top: -18%;
+}
+
+.btn {
+  align-items: center;
+  border: none;
+  background-color: rgb(81, 152, 179);
+  color: white;
+  font: 300 1.8vmax "Roboto";
+  width: 50%;
+  cursor: pointer;
+  transition: all 0.5s;
+  margin: auto;
+  background-position-y: 10%;
+  background-position-x: 10%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #202020;
+}
+
+#registerImage > img {
+  width: 3vmax;
+  border-radius: 100%;
+}
+
+#registerImage > input {
+  display: flex;
+  padding: 0%;
+  margin-left: 5px;
+}
+
+#registerImage > input::file-selector-button {
+  cursor: pointer;
+  width: 100%;
+  height: 5vh;
+  border: none;
+  margin: 0%;
+  font: 500 1.5vmax "Gill Sans";
+  transition: all 0.5s;
+  padding: 0 1vmax;
+  color: rgba(0, 0, 0, 0.623);
+  background-color: whitesmoke;
+}
+
+#registerImage > input::file-selector-button:hover {
+  background-color: whitesmoke;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 10px;
+  background-color: whitesmoke;
+  border: none;
+  transition: all 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top: -12px;
+  padding: 2vmax;
+  justify-content: space-evenly;
+  transition: all 0.5s;
+  font: 500 1.5vmax "Gill Sans";
+  z-index: 2;
+
+  width: 80%;
+  border-radius: 10px; 
+}
+.select-arrow{
+    width: calc(100% + 30px);
+    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 20px;
+    content: "";
+  position: absolute;
+ 
+}

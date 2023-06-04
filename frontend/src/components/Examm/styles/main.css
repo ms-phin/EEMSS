@@ -1,0 +1,47 @@
+.container ol li{
+    font-size: 1.4em;
+    color: black;
+}
+
+.start{
+    display: flex;
+    justify-content: center;
+    padding-top: 2em;
+}
+
+.start .butn{
+    padding: .2em 1.7em;
+    border: none;
+    border-radius: .1em;
+    font-size: 1.2em;
+    color: #202020;
+    text-decoration: none;
+    background-color: rgb(81, 152, 179);
+
+    align-items: center;
+    border: none;
+    background-color:rgb(60, 123, 145)lightblue;
+    color: white;
+    font: 300 1.8vmax "Roboto";
+    width: 30%;
+    padding: 0.8vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+    margin: auto;
+    /* margin-top: 2%; */
+    border-radius: 4px;
+    background-position-y: 2%;
+    background-position-x: 2%;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+}
+.start .butn:hover{
+    cursor: pointer;
+    background-color: #f0f0f0;
+    color: #202020;
+}
+
+
+

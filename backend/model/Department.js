@@ -4,7 +4,11 @@ const mongoose = require('mongoose');
 const DepartmentSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        minlength: 3,
+        maxlength: 50
+
     },
     facultyId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,7 +25,11 @@ const DepartmentSchema = new mongoose.Schema({
     students: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student'
-    }]
+    }],
+    // questions: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Exam'
+    // }]
 });
 
 DepartmentSchema.virtual('id').get(function () { return this._id.toHexString(); });

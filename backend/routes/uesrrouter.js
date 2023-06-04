@@ -1,5 +1,7 @@
 const express = require("express")
-const { loginUser, logoutUser, registerStudent, registerTeacher, createChair, getChairById, createCourse } = require("../controller/usercontroller");
+const { loginUser, logoutUser,
+    registerStudent, registerTeacher, createChair,
+    getChairById, createCourse, getAllCourses } = require("../controller/usercontroller");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 // const { getAllQuestion } = require("../controller/usercontroller");
 
@@ -10,6 +12,8 @@ const router = express.Router();
 router.route("/createCourse").post(createCourse);
 router.route("/createChair").post(createChair);
 router.route("/getChairById/:id").get(getChairById);
+router.route("/getAllCourses").get(getAllCourses);
+
 
 
 // router.route("/seequestionbytwo/:id").post(isAuthenticatedUser, authorizeRoles("teacher" || "admin"), getAllQuestion);

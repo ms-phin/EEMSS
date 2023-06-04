@@ -1,7 +1,7 @@
 // const _ = require('lodash');
-const Question = require("../model/questtion");
-const Test = require("../model/Test")
-const Exam = require("../model/ExamaModel")
+// const Question = require("../model/questtion");
+// const Test = require("../model/Test")
+// const Exam = require("../model/ExamaModel")
 
 
 // const QuestionBank = require('../models/questionBank');
@@ -33,22 +33,22 @@ const Exam = require("../model/ExamaModel")
 // };
 
 // module.exports = QuestionController;
-exports.getTestQuestions = async (req, res) => {
-    const { testId } = req.params;
-    const student = req.user;
+// exports.getTestQuestions = async (req, res) => {
+//     const { testId } = req.params;
+//     const student = req.user;
 
-    try {
-        const test = await Test.findById(testId).populate('questions');
-        const assignedQuestions = student.tests.find(test => test.test.toString() === testId);
-        const questions = test.questions.filter(question => assignedQuestions.questions.includes(question._id.toString()));
+//     try {
+//         const test = await Test.findById(testId).populate('questions');
+//         const assignedQuestions = student.tests.find(test => test.test.toString() === testId);
+//         const questions = test.questions.filter(question => assignedQuestions.questions.includes(question._id.toString()));
 
-        console.log('Assigned Questions:', questions);
-        res.status(200).json({ questions });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error getting test questions' });
-    }
-};
+//         console.log('Assigned Questions:', questions);
+//         res.status(200).json({ questions });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Error getting test questions' });
+//     }
+// };
 
 // Route to get an exam for a student
 // app.get('/students/:studentId/exams/:examId', async (req, res) => {
@@ -66,35 +66,72 @@ exports.getTestQuestions = async (req, res) => {
 //   });
 
 
-exports.getExam = async (req, res) => {
+// exports.getExam = async (req, res) => {
+//     try {
+//         const { examId } = req.params;
+//         const exam = await Exam.findById(examId).populate('questions');
+
+//         if (!exam) {
+//             return res.status(404).json({ message: 'Exam not found' });
+//         }
+
+//         const currentTime = new Date();
+//         const startTime = new Date(exam.startTime);
+//         const endTime = new Date(startTime.getTime() + exam.duration * 60000);
+
+//         if (currentTime < startTime) {
+//             return res.status(403).json({ message: 'Exam session has not started yet' });
+//         }
+
+//         if (currentTime > endTime) {
+//             return res.status(403).json({ message: 'Exam session has ended' });
+//         }
+
+//         const questions = exam.questions.map(question => {
+//             const { _id, title, options } = question;
+//             return { _id, title, options };
+//         });
+
+//         res.status(200).json({ questions });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// }
+
+
+// if (currentTime < startTime) {
+//     return res.status(403).json({ message: 'Exam session has not started yet' });
+// }
+
+const Question = require("../model/questionModel");
+const StudentExam = require("../model/StudentExam")
+
+exports.getActiveExams = async (req, res, next) => {
     try {
-        const { examId } = req.params;
-        const exam = await Exam.findById(examId).populate('questions');
+        const { departmentId } = req.user; // Assuming the student's department ID is stored in the req.user object
 
-        if (!exam) {
-            return res.status(404).json({ message: 'Exam not found' });
-        }
+        // Find all exams that belong to the student's department and have ActivateExam set to true
+        const exams = await StudentExam.find({
+            departmentId,
+            ActivateExam: true
+        }).select('totalQuestion');
+        console.log(exams)
+        // Get the question text for each question ID in the active exams
+        const questionIds = exams.reduce((acc, exam) => [...acc, ...exam.totalQuestion], []);
+        const questions = await Question.find({ _id: { $in: questionIds } });
+        console.log("questions", questions)
 
-        const currentTime = new Date();
-        const startTime = new Date(exam.startTime);
-        const endTime = new Date(startTime.getTime() + exam.duration * 60000);
+        // Map the question text to each active exam's totalQuestion array
+        // const activeExams = exams.map(exam => ({
+        //     _id: exam._id,
+        //     totalQuestion: exam.totalQuestion.map(questionId =>
+        //         questions.find(q => q._id.equals(questionId)))
+        // }));
+        // console.log(_id)
 
-        if (currentTime < startTime) {
-            return res.status(403).json({ message: 'Exam session has not started yet' });
-        }
-
-        if (currentTime > endTime) {
-            return res.status(403).json({ message: 'Exam session has ended' });
-        }
-
-        const questions = exam.questions.map(question => {
-            const { _id, title, options } = question;
-            return { _id, title, options };
-        });
-
-        res.status(200).json({ questions });
+        return res.json(questions);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Internal server error' });
+        return next(error);
     }
-}
+};

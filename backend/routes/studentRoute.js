@@ -1,10 +1,16 @@
 const express = require("express")
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
-// const { getRandomQuestions } = require("../controller/studentController");
-const QuestionController = require('../controller/studentController');
+const { getActiveExams } = require("../controller/studentController");
+// const { getActiveExams } = require('../controller/studentController');
+
 
 
 
 const router = express.Router();
 
-router.route("/getTestQuestions/:id").get(isAuthenticatedUser, authorizeRoles("student", "admin", "teacher"));
+router.route("/active-exams").get(isAuthenticatedUser, authorizeRoles("student", "chair", "teacher"), getActiveExams);
+
+// router.get('/active-exams', getActiveExams);
+// router.route("/updateExam/:id").put(isAuthenticatedUser, authorizeRoles("chair"), updateExam);
+
+module.exports = router;

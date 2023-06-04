@@ -15,9 +15,8 @@ const chair = require("./routes/chairRoutes");
 const register = require("./routes/uesrrouter");
 const faculty = require("./routes/facultyroute");
 const department = require("./routes/Departmentroutes");
-
 const registerteacher = require("./routes/teacherroute");
-// const question = require('./routes/questionrouter')
+const Student = require("./routes/studentRoute")
 const connectBD = require("./database/connection");
 
 
@@ -31,6 +30,7 @@ connectBD();
 app.use("/api", chair);
 app.use("/api", registerteacher);
 app.use("/api", register);
+app.use("/api", Student);
 app.use("/api", faculty);
 app.use("/api", department);
 // app.use("/api", question);

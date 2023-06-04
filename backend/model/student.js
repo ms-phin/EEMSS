@@ -1,4 +1,7 @@
 const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+
 const studentSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -20,6 +23,11 @@ const studentSchema = new mongoose.Schema({
     role: {
         type: String,
         required: true
+    },
+    ActivateStudent: {
+        required: true,
+        default: 1,
+        type: Boolean
     },
     departmentId: {
         type: mongoose.Schema.Types.ObjectId,
