@@ -206,7 +206,6 @@ export default function DeptRegistrationForm() {
     email: '',
     password: '',
     confirmPassword: '',
-    image: null,
   };
 
   useEffect(() => {
@@ -236,7 +235,7 @@ export default function DeptRegistrationForm() {
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
       const formData = new FormData();
-      formData.append('username', values.username);
+      formData.append('name', values.name);
       formData.append('email', values.email);
       formData.append('password', values.password);
       formData.append('confirmPassword', values.confirmPassword);
@@ -244,23 +243,45 @@ export default function DeptRegistrationForm() {
       formData.append('course', course);
       formData.append('department', department);
 
-      const response = await axios.post(
-        'http://localhost:5000/api/registerTeacher',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token') && localStorage.getItem('role')}`,
-          }
-        }
-      );
+      const token = localStorage.getItem('token');
+      const role = localStorage.getItem('role');
+      console.log(token)
+      if (!token) {
+        throw new Error('Token not found');
+      }
+      axios.post('http://localhost:5000/api/registerTeacher', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'X-User-Role': role,
+        },
+      })
+        .then((response) => {
+          console.log(response.data);
+          alert('Teacher added successfully');
+        })
+        .catch((error) => {
+          console.log(error.response.data);
+          alert(error.response.data.error);
+        });
+
+      // const response = await axios.post(
+      //   'http://localhost:5000/api/registerTeacher',
+      //   formData,
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': `Bearer ${localStorage.getItem('token') && localStorage.getItem('role')}`,
+      //     }
+      //   }
+      // );
 
 
-      console.log(response.data);
-      alert('Teacher added successfully');
-    } catch (error) {
-      console.log(error.response.data);
-      alert(error.response.data.error);
+      //   console.log(response.data);
+      //   alert('Teacher added successfully');
+      // } catch (error) {
+      //   console.log(error.response.data);
+      //   alert(error.response.data.error);
     } finally {
       setSubmitting(false);
     }
@@ -289,9 +310,9 @@ export default function DeptRegistrationForm() {
                     type="text"
                     id="username"
                     placeholder="Enter Full Name"
-                    name="username"
+                    name="name"
                   />
-                  <ErrorMessage name="username" />
+                  <ErrorMessage name="name" />
                 </div>
 
                 <div className="email">
@@ -333,7 +354,9 @@ export default function DeptRegistrationForm() {
                   <Field
                     as="select"
                     value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
+                    onChange={(e) => setDepartment(e.target.value)
+                    }
+                    name="department"
                   >
                     <option value="" disabled hidden>
                       Select a Department
@@ -354,6 +377,7 @@ export default function DeptRegistrationForm() {
                     as="select"
                     value={course}
                     onChange={(e) => setCourse(e.target.value)}
+                    name="course"
                   >
                     <option value="" disabled hidden>
                       Select a Course
@@ -385,8 +409,9 @@ export default function DeptRegistrationForm() {
               </button>
             </div>
           </div>
-        </Form>
-      )}
-    </Formik>
+        </Form >
+      )
+      }
+    </Formik >
   );
 }

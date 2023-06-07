@@ -91,7 +91,7 @@ const TeacherSchema = new mongoose.Schema({
     },
     imageurl: {
         type: String,
-        requred: true
+        requred: false
     },
     departmentId: {
         type: mongoose.Schema.Types.ObjectId,

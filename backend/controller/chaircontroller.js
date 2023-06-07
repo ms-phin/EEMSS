@@ -197,7 +197,7 @@ const StudentExam = require("../model/StudentExam");
 // };
 exports.registerTeacher = async (req, res) => {
     try {
-        const { name, email, contact, password, departmentId, courseId } = req.body;
+        const { name, email, password, confirmPassword, departmentId, courseId } = req.body;
 
         // Check if department exists
         const existingDepartment = await Department.findById(departmentId).populate('chairId');
@@ -225,8 +225,8 @@ exports.registerTeacher = async (req, res) => {
         const teacher = new Teacher({
             name,
             email,
-            contact,
             password,
+            confirmPassword,
             role: 'teacher',
             departmentId,
             courseId,

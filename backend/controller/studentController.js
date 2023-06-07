@@ -109,11 +109,11 @@ const StudentExam = require("../model/StudentExam")
 
 exports.getActiveExams = async (req, res, next) => {
     try {
-        const { departmentId } = req.user; // Assuming the student's department ID is stored in the req.user object
+        // const { departmentId } = req.user; // Assuming the student's department ID is stored in the req.user object
 
         // Find all exams that belong to the student's department and have ActivateExam set to true
         const exams = await StudentExam.find({
-            departmentId,
+            // departmentId,
             ActivateExam: true
         }).select('totalQuestion');
         console.log(exams)
