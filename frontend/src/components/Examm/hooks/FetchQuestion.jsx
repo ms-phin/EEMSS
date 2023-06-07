@@ -70,14 +70,119 @@
 
 //     return [getData, setGetData];question?.questionText
 // }
+// import { useEffect, useState } from "react"
+// import { useDispatch } from "react-redux";
+// import axios from "axios";
+// import * as Action from '../redux/question_reducer'
+
+// export const useFetchQuestion = () => {
+//     const dispatch = useDispatch();
+//     const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null });
+//     const [question, setQuestion] = useState([]);
+
+//     useEffect(() => {
+//         setGetData(prev => ({ ...prev, isLoading: true }));
+
+//         axios.get('http://localhost:5000/api/active-exams')
+//             .then((response) => {
+//                 console.log(response.data);
+//                 console.log("question._id", response.data[0]._id)
+//                 console.log("question._id", response.data[0].questionText)
+//                 if (response.data.length > 0) {
+//                     setGetData(prev => ({ ...prev, isLoading: false }));
+//                     setGetData(prev => ({ ...prev, apiData: { question: response.data, answers } }));
+//                     setQuestion(response.data); // Set the question state to the API data
+//                     dispatch(Action.startExamAction({ question: response.data, answers }));
+//                 } else {
+//                     throw new Error("No Question Available");
+//                 }
+//             })
+//             .catch((error) => {
+//                 setGetData(prev => ({ ...prev, isLoading: false }));
+//                 setGetData(prev => ({ ...prev, serverError: error }));
+
+//             });
+
+//     }, [dispatch]);
+
+//     return [getData, setGetData, question, setQuestion];
+// }
+
+// export const MoveNextQuestion = () => async (dispatch) => {
+//     try {
+//         dispatch(Action.moveNextAction()); /** increase quest by 1 */
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+// export const movePrevQuestion = () => async (dispatch) => {
+//     try {
+//         dispatch(Action.movePrevAction()); /** increase quest by 1 */
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+// axios.get("http://localhost:5000/api/active-exams").then(response => {
+//     console.log(response.data);
+// })
+
+
+
+
+
+
+
+
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as Action from '../redux/question_reducer'
 
+// export const useFetchQuestion = () => {
+//     const dispatch = useDispatch();
+//     const [getData, setGetData] = useState({ isLoading: false, apiData: { question: [] }, serverError: null });
+//     const [question, setQuestion] = useState([]);
+
+//     useEffect(() => {
+//         setGetData(prev => ({ ...prev, isLoading: true }));
+
+//         axios.get('http://localhost:5000/api/active-exams')
+//             .then((response) => {
+//                 console.log(response.data);
+//                 if (response.data.length > 0) {
+//                     const questions = response.data.map(question => {
+//                         return {
+//                             ...question,
+//                             answers: [], // initialize answers array
+//                         }
+//                     });
+//                     setGetData(prev => ({ ...prev, isLoading: false, apiData: { question: questions } }));
+//                     setQuestion(questions); // Set the question state to the API data
+//                     dispatch(Action.startExamAction({ question: questions, correctAnswerIndexes: response.data.map(q => q.correctAnswerIndex) }));
+//                 } else {
+//                     throw new Error("No Question Available");
+//                 }
+//             })
+//             .catch((error) => {
+//                 setGetData(prev => ({ ...prev, isLoading: false, serverError: error }));
+//             });
+
+//     }, [dispatch]);
+
+//     return [getData, setGetData, question, setQuestion];
+// }
+
+// export const MoveNextQuestion = () => (dispatch) => {
+//     dispatch(Action.moveNextAction()); /** increase quest by 1 */
+// }
+
+// export const MovePrevQuestion = () => (dispatch) => {
+//     dispatch(Action.movePrevAction()); /** decrease quest by 1 */
+// }
 export const useFetchQuestion = () => {
     const dispatch = useDispatch();
-    const [getData, setGetData] = useState({ isLoading: false, apiData: [], serverError: null });
+    const [getData, setGetData] = useState({ isLoading: false, apiData: { question: [] }, serverError: null });
     const [question, setQuestion] = useState([]);
 
     useEffect(() => {
@@ -86,43 +191,32 @@ export const useFetchQuestion = () => {
         axios.get('http://localhost:5000/api/active-exams')
             .then((response) => {
                 console.log(response.data);
-                console.log("question._id", response.data[0]._id)
-                console.log("question._id", response.data[0].questionText)
                 if (response.data.length > 0) {
-                    setGetData(prev => ({ ...prev, isLoading: false }));
-                    setGetData(prev => ({ ...prev, apiData: { question: response.data, answers: [] } }));
-                    setQuestion(response.data); // Set the question state to the API data
-                    dispatch(Action.startExamAction({ question: response.data, answers: [] }));
+                    const questions = response.data.map(question => {
+                        return {
+                            ...question,
+                            answers: [question.correctAnswerIndex], // initialize answers array with correct answer index
+                        }
+                    });
+                    setGetData(prev => ({ ...prev, isLoading: false, apiData: { question: questions } }));
+                    setQuestion(questions); // Set the question state to the API data
+                    dispatch(Action.startExamAction({ question: questions, answers: response.data.map(q => q.correctAnswerIndex) }));
                 } else {
                     throw new Error("No Question Available");
                 }
             })
             .catch((error) => {
-                setGetData(prev => ({ ...prev, isLoading: false }));
-                setGetData(prev => ({ ...prev, serverError: error }));
-
+                setGetData(prev => ({ ...prev, isLoading: false, serverError: error }));
             });
 
     }, [dispatch]);
 
     return [getData, setGetData, question, setQuestion];
 }
+export const MoveNextQuestion = () => (dispatch) => {
+    dispatch(Action.moveNextAction()); /** increase quest by 1 */
+};
 
-export const MoveNextQuestion = () => async (dispatch) => {
-    try {
-        dispatch(Action.moveNextAction()); /** increase quest by 1 */
-    } catch (error) {
-        console.log(error)
-    }
-}
-export const movePrevQuestion = () => async (dispatch) => {
-    try {
-        dispatch(Action.movePrevAction()); /** increase quest by 1 */
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-// axios.get("http://localhost:5000/api/active-exams").then(response => {
-//     console.log(response.data);
-// })
+export const movePrevQuestion = () => (dispatch) => {
+    dispatch(Action.movePrevAction()); /** decrease quest by 1 */
+};
