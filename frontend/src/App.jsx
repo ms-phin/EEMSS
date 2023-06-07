@@ -5,6 +5,8 @@ import QuestionForm from './teachers/upload_que.jsx';
 import Home from './components/Auth/home.jsx'
 import Main from './components/Examm/main';
 import Exam from "./components/Examm/exam.jsx";
+import Result from "./components/Examm/result.jsx";
+import { CheckUserExist } from './components/Examm/helper/helper';
 import StudRegistrationForm from './stream_chair/addStudent.jsx';
 import TeachRegistrationForm from './stream_chair/addTeachers.jsx';
 import Chairhome from './stream_chair/chairhome.jsx';
@@ -28,6 +30,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/*' element={<Nomatch />} />
         <Route path='/studentdashboard/login/main/exa' element={role === "student" ? <Exam /> : <Navigate to='/login' />} />
+        <Route path='/studentdashboard/login/main/exa/result' element={role === "student" ? <Result /> : <Navigate to='/login' />} />
+
 
       </Routes>
     </Router>
