@@ -9,6 +9,10 @@ import Result from "./components/Examm/result.jsx";
 import { CheckUserExist } from './components/Examm/helper/helper';
 import StudRegistrationForm from './stream_chair/addStudent.jsx';
 import TeachRegistrationForm from './stream_chair/addTeachers.jsx';
+import QueList from './stream_chair/questionlist.jsx';
+import Studlist from './stream_chair/studlist.jsx';
+import Teachlist from './stream_chair/teachlist.jsx';
+// import Admindash from './superadmin/admin_dashboard.jsx';
 import Chairhome from './stream_chair/chairhome.jsx';
 import Nomatch from './components/nomatch'
 
@@ -31,6 +35,12 @@ function App() {
         <Route path='/*' element={<Nomatch />} />
         <Route path='/studentdashboard/login/main/exa' element={role === "student" ? <Exam /> : <Navigate to='/login' />} />
         <Route path='/studentdashboard/login/main/exa/result' element={role === "student" ? <Result /> : <Navigate to='/login' />} />
+
+        <Route path='/chairhome/list' element={role === "chair" ? <QueList /> : <Navigate to='/login' />} />
+        <Route path='/chairhome/listofteach' element={role === "chair" ? <Teachlist /> : <Navigate to='/login' />} />
+        <Route path='/chairhome/listofstud' element={role === "chair" ? <Studlist /> : <Navigate to='/login' />} />
+
+
 
 
       </Routes>

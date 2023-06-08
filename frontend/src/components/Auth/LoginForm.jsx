@@ -88,18 +88,21 @@ const LoginForm = () => {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     //   const isAuthenticated = token && role;
-
+    // 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:5000/api/login/user', {
                 email,
                 password,
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'X-User-Role': role,
-                },
+                // // headers: {
+                // //     'Content-Type': 'application/json',
+                // //     'Authorization': `Bearer ${token}`,
+                // //     'X-User-Role': role,
+                // // },
+                // headers: {
+                //     'Authorization': 'Bearer ' + token
+                // }
             }).then((response) => {
                 console.log(response)
                 localStorage.setItem('token', response.data.token);

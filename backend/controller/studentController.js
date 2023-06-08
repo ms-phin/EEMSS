@@ -103,7 +103,7 @@
 // if (currentTime < startTime) {
 //     return res.status(403).json({ message: 'Exam session has not started yet' });
 // }
-
+const _ = require('lodash');
 const Question = require("../model/questionModel");
 const StudentExam = require("../model/StudentExam")
 
@@ -115,23 +115,29 @@ exports.getActiveExams = async (req, res, next) => {
         const exams = await StudentExam.find({
             // departmentId,
             ActivateExam: true
-        }).select('totalQuestion');
+        }).select('totalQuestion', 'duration');
         console.log(exams)
         // Get the question text for each question ID in the active exams
         const questionIds = exams.reduce((acc, exam) => [...acc, ...exam.totalQuestion], []);
-        const questions = await Question.find({ _id: { $in: questionIds } });
-        console.log("questions", questions)
+        const question = await Question.find({ _id: { $in: questionIds } });
+        // Shuffle the questions using the shuffle function from the lodash library
 
-        // Map the question text to each active exam's totalQuestion array
-        // const activeExams = exams.map(exam => ({
-        //     _id: exam._id,
-        //     totalQuestion: exam.totalQuestion.map(questionId =>
-        //         questions.find(q => q._id.equals(questionId)))
-        // }));
-        // console.log(_id)
+        const questions = _.shuffle(question);
+        console.log("questions", questions)
+        console.log("questions", duration)
+
+
 
         return res.json(questions);
     } catch (error) {
         return next(error);
     }
 };
+
+ // Map the question text to each active exam's totalQuestion array
+        // const activeExams = exams.map(exam => ({
+        //     _id: exam._id,
+        //     totalQuestion: exam.totalQuestion.map(questionId =>
+        //         questions.find(q => q._id.equals(questionId)))
+        // }));
+        // console.log(_id)

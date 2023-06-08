@@ -85,6 +85,14 @@ const TeacherSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    department: {
+        type: String,
+        required: true
+    },
+    course: {
+        type: String,
+        required: true
+    },
     role: {
         type: String,
         required: true

@@ -192,14 +192,14 @@ export default function DeptRegistrationForm() {
     }
   };
 
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Confirm Password is required'),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   username: Yup.string().required('Username is required'),
+  //   email: Yup.string().email('Invalid email').required('Email is required'),
+  //   password: Yup.string().required('Password is required'),
+  //   confirmPassword: Yup.string()
+  //     .oneOf([Yup.ref('password'), null], 'Passwords must match')
+  //     .required('Confirm Password is required'),
+  // });
 
   const initialValues = {
     username: '',
@@ -231,8 +231,9 @@ export default function DeptRegistrationForm() {
         console.log(error);
       });
   }, []);
-
+  
   const handleSubmit = async (values, { setSubmitting }) => {
+    console.log(values);
     try {
       const formData = new FormData();
       formData.append('name', values.name);
@@ -242,55 +243,40 @@ export default function DeptRegistrationForm() {
       formData.append('image', image);
       formData.append('course', course);
       formData.append('department', department);
-
+      
       const token = localStorage.getItem('token');
       const role = localStorage.getItem('role');
       console.log(token)
+      console.log(role)
+
       if (!token) {
         throw new Error('Token not found');
       }
       axios.post('http://localhost:5000/api/registerTeacher', formData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'X-User-Role': role,
-        },
+        
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
       })
-        .then((response) => {
-          console.log(response.data);
-          alert('Teacher added successfully');
-        })
-        .catch((error) => {
-          console.log(error.response.data);
-          alert(error.response.data.error);
-        });
-
-      // const response = await axios.post(
-      //   'http://localhost:5000/api/registerTeacher',
-      //   formData,
-      //   {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': `Bearer ${localStorage.getItem('token') && localStorage.getItem('role')}`,
-      //     }
-      //   }
-      // );
-
-
-      //   console.log(response.data);
-      //   alert('Teacher added successfully');
-      // } catch (error) {
-      //   console.log(error.response.data);
-      //   alert(error.response.data.error);
+      
+      .then((response) => {
+        // console.log(response.data);
+        alert('Teacher added successfully');
+      })
+      .catch((error) => {
+        // console.log(error.response.data);
+        alert("there some error");
+      });
     } finally {
       setSubmitting(false);
     }
   };
-
+  
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={validationSchema}
+      // validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
@@ -415,3 +401,22 @@ export default function DeptRegistrationForm() {
     </Formik >
   );
 }
+
+  
+        // const response = await axios.post(
+        //   'http://localhost:5000/api/registerTeacher',
+        //   formData,
+        //   {
+        //     headers: {
+        //       'Content-Type': 'application/json',
+        //       'Authorization': `Bearer ${localStorage.getItem('token') && localStorage.getItem('role')}`,
+        //     }
+        //   }
+        // );
+  
+  
+        //   console.log(response.data);
+        //   alert('Teacher added successfully');
+        // } catch (error) {
+        //   console.log(error.response.data);
+        //   alert(error.response.data.error);

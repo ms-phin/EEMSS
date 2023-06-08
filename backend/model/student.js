@@ -7,18 +7,22 @@ const studentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    password: {
-        type: String,
-        required: true
-    },
     email: {
         type: String,
         required: true
     },
-    contact: {
+    password: {
+        type: String,
+        required: true
+    },
+    confrimepassword: {
         type: String,
         required: true,
         unique: true
+    },
+    department: {
+        type: String,
+        required: true
     },
     role: {
         type: String,

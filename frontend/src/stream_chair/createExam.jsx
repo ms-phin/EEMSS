@@ -59,11 +59,13 @@ return (
                     <Field type="number" className="form-control" id="totalMarks" name="totalMarks" />
                     <ErrorMessage name="totalMarks" className="form-text text-danger" />
                 </div>
+                
                 <div className="mb-3">
                     <label htmlFor="marksPerRightAnswer" className="form-label">Marks Per Right Answer</label>
                     <Field type="text" className="form-control" id="marksPerRightAnswer" name="marksPerRightAnswer" />
                     <ErrorMessage name="marksPerRightAnswer" className="form-text text-danger" />
                 </div>
+                
                 {/* <div className="mb-3">
                     <label htmlFor="studentId" className="form-label">Student ID</label>
                     <Field type="text" className="form-control" id="studentId" name="studentId" />
@@ -74,10 +76,16 @@ return (
                     <Field type="datetime-local" className="form-control" id="startTime" name="startTime" />
                     <ErrorMessage name="startTime" className="form-text text-danger" />
                 </div>
+
                 <div className="mb-3">
-                    <label htmlFor="endTime" className="form-label">End Time</label>
+                    <label htmlFor="endTime" className="form-label">Duration</label>
                     <Field type="datetime-local" className="form-control" id="endTime" name="endTime" />
                     <ErrorMessage name="endTime" className="form-text text-danger" />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="totalMarks" className="form-label">Total Marks</label>
+                    <Field type="number" className="form-control" id="totalMarks" name="totalMarks" />
+                    <ErrorMessage name="totalMarks" className="form-text text-danger" />
                 </div>
                     <button type="submit" className="btn btn-primary" disabled={isSubmitting}>Set Exam</button>
       </Form>

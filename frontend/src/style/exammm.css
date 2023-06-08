@@ -1,0 +1,181 @@
+/* exammm.css
+.foorm{
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-image: url(https://img.freepik.com/free-vector/virtual-man-laptop-teaching-online_23-2148508675.jpg?size=626&ext=jpg&ga=GA1.1.353983474.1680810011&semt=robertav1_2_sidr.avif);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-position-x: 5%;
+  background-size: 88vh;
+  position: fixed;
+  top: 10%;
+  left: 0;
+  margin: auto;
+  margin-top: -3%;
+}
+form
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  border-radius: 0;
+}
+
+-text.text-danger {
+  color: red;
+}
+
+.btn.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn.btn-primary:active {
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+.btn.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+} */
+/* exammm.css */
+/* form-body {
+  text-align: left;
+} */
+/* .form-label { */
+ /* width: 150px;
+  text-align: right;
+  transform: translateY(-100%) translateX(-100vmax);
+  width: 40%;
+  font: 100 1.8vmax "Gill Sans";
+  margin: auto;
+  margin-top: -10%; */
+
+  /* width: 80%; */
+  /* background-color: white;
+  background: none;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  padding: 3px;
+  background-color: whitesmoke; */
+
+  /* margin-bottom: 3px; */
+  /* box-shadow: 15px 15px 15px white, 
+    -15px 15px 15px white;
+  border-radius: 10px;  */
+  /* background-color: white; */
+
+
+/* .form-control {
+  font-size: 100%;
+} */
+ /* border-radius: 0;
+ text-align: left;
+ padding: 20px 20px;
+ border: 2px solid #0000001a;
+ padding: 10px;
+ margin-right: 17%;
+ margin-top: -7%;
+ left: 0;
+ width: 30vw;
+ height: 90vh;
+ background-size: 100vh;
+ overflow: hidden;
+ box-shadow: 15px 15px 15px rgba(219, 213, 213, 0.2), 
+   -15px 15px 15px rgba(0,0,0,0.1);
+ border-radius: 10px;
+ background: none; 
+}
+.form-text.text-danger {
+  color: red;
+}
+
+/* .btn.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn.btn-primary:hover { background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.btn.btn-primary:active {
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
+.btn.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+} */
+
+/* Center the form */
+/* form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 20px 20px;
+  border: 2px solid #0000001a;
+  padding: 10px;
+  margin-right: 17%; */
+  /* margin-top: ; */
+  /* left: 0;
+  width: 50vw;
+  height: 90vh;
+  background-size: 100vh;
+  overflow: hidden;
+  box-shadow: 15px 15px 15px rgba(219, 213, 213, 0.2), 
+    -15px 15px 15px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  background: none;
+} */
+/* .foorm{
+  
+} */
+/* Align form fields to the right */
+/* .form-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  margin-right: 1rem;
+} */
+/* .btn {
+  align-items: center;
+  border: none;
+  background-color: rgb(81, 152, 179);
+  color: white;
+  font: 300 1.8vmax "Roboto";
+  width: 30%;
+  cursor: pointer;
+  transition: all 0.5s;
+  margin: auto;
+  background-position-y: 10%;
+  background-position-x: 10%;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.219);
+  margin-top: 5%;
+  padding: 10px 20px;
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: #f0f0f0;
+  color: #202020;
+} */

@@ -8,7 +8,10 @@ const Chair = require("../model/chairModel");
 
 
 exports.isAuthenticatedUser = async (req, res, next) => {
-    const { token } = req.cookies;
+    // const { token } = req.cookies;
+    // console.log(req.headers);
+    // const token = req.headers.authorization.split(" ")[1];
+    const token = req.cookies.token;
     
     if (!token) {
         return next(new ErrorHandler("Please Login for access this resource", 401));
@@ -35,6 +38,35 @@ exports.isAuthenticatedUser = async (req, res, next) => {
 
     next();
 };
+// exports.isAuthenticatedUser = async (req, res, next) => {
+//     const token = req.headers.authorization.split(" ")[1];
+    
+//     if (!token) {
+//         return next(new ErrorHandler("Please Login for access this resource", 401));
+//     }
+
+//     const decodedData = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+//     let user;
+//     if (decodedData && decodedData.id) {
+//         user = await Teacher.findById(decodedData.id);
+//         if (!user) {
+//             user = await Chair.findById(decodedData.id);
+//         }
+//         if (!user) {
+//             user = await Student.findById(decodedData.id);
+//         }
+//     }
+
+//     if (!user) {
+//         return next(new ErrorHandler("User not found", 401));
+//     }
+
+//     req.user = user;
+
+//     next();
+// };
+
 exports.authorizeRoles = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
