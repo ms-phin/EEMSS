@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Questions from './questions.jsx'
 import { useSelector, useDispatch } from 'react-redux'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { MoveNextQuestion, movePrevQuestion } from './hooks/FetchQuestion.jsx'
 import { PushAnswer } from './hooks/setResult.jsx'
 
@@ -15,6 +15,7 @@ export default function Exam() {
   const [duration, setDuration] = useState(null)
   const [time, setTime] = useState(duration);
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
+  const Navigate = useNavigate();
 
 
   useEffect(() => {
@@ -34,19 +35,40 @@ export default function Exam() {
     setChecked(undefined)
 
   }, [trace])
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setTime(prevTime => prevTime - 1);
+  //   }, 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
+  // // useEffect(() => {
+  // //   const interval = setInterval(() => {
+  // //     if (time > 0) {
+  // //       setTime((prevTime) => prevTime - 1);
+  // //     }
+  // //   }, 1000);
+  // //   return () => clearInterval(interval);
+  // // }, []);
+  // useEffect(() => {
+  //   if (time === 0) {
+  //     // Time is up, navigate to the result page
+  //     // <Navigate to='./result' replace="true"></Navigate>
+  //     navigate('/result');
+  //   }
+  // }, [time]);
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(prevTime => prevTime - 1);
     }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
+
     if (time === 0) {
-      // Time is up, navigate to the result page
-      <Navigate to='./result' replace="true"></Navigate>
-      // Navigate('/result');
+      clearInterval(interval);
+      Navigate('/result', { replace: true });
     }
-  }, [time]);
+
+    return () => clearInterval(interval);
+  }, [time, Navigate]);
+
 
   function onNext() {
     console.log('next button pressed')
@@ -79,7 +101,7 @@ export default function Exam() {
     setChecked(check)
   }
   if (result.length && result.length >= queue.length) {
-    return <Navigate to='./result' replace="true"></Navigate>
+    return <Navigate to='./login/main/exa/result' replace="true"></Navigate>
   }
 
   const minutes = Math.floor(time / 60);

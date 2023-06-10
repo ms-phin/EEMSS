@@ -45,3 +45,11 @@ td img {
   max-width: 200px;
   max-height: 200px;
 }
+
+.view {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgb(81, 152, 179);
+  color: white;
+}
