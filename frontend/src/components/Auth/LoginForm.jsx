@@ -116,6 +116,8 @@ const LoginForm = () => {
                     navigate('/chairdashboard');
                 } else if (response.data.role === 'student') {
                     navigate('/studentdashboard');
+                } else if (response.data.role === 'superadmin') {
+                    navigate('/admindash');
                 }
             }).catch((error) => {
                 alert(error.response.data.massage

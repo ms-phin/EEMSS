@@ -1,126 +1,3 @@
-// // // import React from 'react'
-
-// // // const Students = () => {
-// // //     return (
-// // //         <div>This is List of registered Students </div>
-// // //         )
-// // // }
-
-// // // export default Students
-
-// // // components/UsersTable.js
-
-// // import React, { useState, useEffect } from 'react';
-// // import axios from 'axios';
-
-// // const Students = () => {
-// //   const [users, setUsers] = useState([]);
-
-// //   useEffect(() => {
-// //     const fetchUsers = async () => {
-// //       const res = await axios.get('/users');
-// //       setUsers(res.data);
-// //     };
-// //     fetchUsers();
-// //   }, []);
-
-// //   const handleEdit = (id) => {
-// //     // Handle edit button click
-// //   };
-
-// //   const handleDelete = (id) => {
-// //     // Handle delete button click
-// //   };
-
-// //   return (
-// //     <table>
-// //       <thead>
-// //         <tr>
-// //           <th>Name</th>
-// //           <th>Department</th>
-// //           <th>Course</th>
-// //           <th>Edit</th>
-// //           <th>Delete</th>
-// //         </tr>
-// //       </thead>
-// //       <tbody>
-// //         {users.map((user) => (
-// //           <tr key={user._id}>
-// //             <td>{user.name}</td>
-// //             <td>{user.department}</td>
-// //             <td>{user.course}</td>
-// //             <td>
-// //               <button onClick={() => handleEdit(user._id)}>Edit</button>
-// //             </td>
-// //             <td>
-// //               <button onClick={() => handleDelete(user._id)}>Delete</button>
-// //             </td>
-// //           </tr>
-// //         ))}
-// //       </tbody>
-// //     </table>
-// //   );
-// // };
-
-// // export default Students
-// // components/UsersTable.js
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const Students = () => {
-//   const [users, setUsers] = useState([]);
-
-//   useEffect(() => {
-//     const fetchUsers = async () => {
-//       const res = await axios.get('/users');
-//       setUsers(res.data);
-//     };
-//     fetchUsers();
-//   }, []);
-
-//   const handleEdit = (id) => {
-//     // Handle edit button click
-//   };
-
-//   const handleDelete = (id) => {
-//     // Handle delete button click
-//   };
-
-//   return (
-//     <table>
-//       <thead>
-//         <tr>
-//           <th>Name</th>
-//           <th>Department</th>
-//           <th>Course</th>
-//           <th></th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {users.map((user) => (
-//           <tr key={user._id}>
-//             <td>{user.name}</td>
-//             <td>{user.department}</td>
-//             <td>{user.course}</td>
-//             <td>
-//               {user && (
-//                 <>
-//                   <button onClick={() => handleEdit(user._id)}>Edit</button>
-//                   <button onClick={() => handleDelete(user._id)}>Delete</button>
-//                 </>
-//               )}
-//             </td>
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   );
-// };
-
-// export default Students;
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../style/editlist.css'
@@ -134,21 +11,22 @@ const Students = () => {
   // const [course, setCourse] = useState('');
   const [userIndex, setUserIndex] = useState(1);
 
+
   useEffect(() => {
     const fetchUsers = async () => {
-      const res = await axios.get('http://localhost:5000/api/seestudent');
+      const res = await axios.get('http://localhost:5000/api/seeteacher');
       setUsers(res.data.map(user => ({ ...user, active: false })));
     };
     fetchUsers();
   }, []);
 
   const handleEdit = (id) => {
-    console.log(`Editing user with id ${id}`);
+    // console.log(`Editing user with id ${id}`);
     const user = users.find((user) => user._id === id);
     setEditingUser(user);
     setName(user.name);
     setEmail(user.email);
-    setDepartment(user.department.name);
+    setDepartment(user.department);
     setShowModal(true);
   };
   const handleDelete = async (id) => {
@@ -200,33 +78,10 @@ const Students = () => {
     setEmail('');
     setDepartment('');
   };
-  // const handleToggle = (user) => {
-  //   setUsers(
-  //     users.map((u) =>
-  //       u._id === user._id ? { ...u, active: !u.active } : u
-  //     )
-  //   );
-  // // };
-  // const handleToggle = (user) => {
-  //   const index = users.findIndex((u) => u._id === user._id);
-  //   if (index !== -1) {
-  //     const updatedUsers = [...users];
-  //     updatedUsers[index] = { ...updatedUsers[index],: !updatedUsers[index].active };
-  //     setUsers(updatedUsers);
-  //   }
-  // };
-  const handleToggle = (user) => {
-    const index = users.findIndex((u) => u._id === user._id);
-    if (index !== -1) {
-      const updatedUsers = [...users];
-      updatedUsers[index] = { ...updatedUsers[index], active: !updatedUsers[index].active };
-      setUsers(updatedUsers);
-    }
-  };
 
   return (
     <>
-      <h2>This is the List of Students</h2>
+      <h2>This is the List of Teachers</h2>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       <table>
         <thead>
@@ -253,13 +108,13 @@ const Students = () => {
                     <button onClick={() => handleDelete(user._id)}>
                       <i className="fas fa-trash"></i>
                     </button>
-                    <button onClick={() => handleToggle(user)}>
-                      {user.active ? (
-                        <i className="fas fa-toggle-on"></i>
-                      ) : (
-                        <i className="fas fa-toggle-off"></i>
-                      )}
-                    </button>
+                    {/* <button onClick={() => handleToggle(user)}>
+                {user.active ? (
+                  <i className="fas fa-toggle-on"></i>
+                ) : (
+                  <i className="fas fa-toggle-off"></i>
+                )}
+              </button> */}
                   </>
                 )}
               </td>
@@ -291,7 +146,7 @@ const Students = () => {
               <div className="field">
                 <label className="label">Department</label>
                 <div className="control">
-                  <input className="input" type="text" value={department.name} onChange={(e) => setDepartment(e.target.value)} />
+                  <input className="input" type="text" value={department} onChange={(e) => setDepartment(e.target.value)} />
                 </div>
               </div>
 

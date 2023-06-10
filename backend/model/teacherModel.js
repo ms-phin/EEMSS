@@ -85,14 +85,14 @@ const TeacherSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    department: {
-        type: String,
-        required: true
-    },
-    course: {
-        type: String,
-        required: true
-    },
+    // department: {
+    //     type: String,
+    //     required: true
+    // },
+    // course: {
+    //     type: String,
+    //     required: true
+    // },
     role: {
         type: String,
         required: true
@@ -101,11 +101,11 @@ const TeacherSchema = new mongoose.Schema({
         type: String,
         requred: false
     },
-    departmentId: {
+    department: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Department'
     },
-    courseId: {
+    course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
@@ -117,6 +117,9 @@ const TeacherSchema = new mongoose.Schema({
 //hash password 
 TeacherSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
+});
+TeacherSchema.pre("save", async function (next) {
+    this.confirmPassword = await bcrypt.hash(this.confirmPassword, 10);
 });
 TeacherSchema.methods.getJwtToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {

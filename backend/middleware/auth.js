@@ -1,17 +1,24 @@
 const ErrorHandler = require("../utils/ErrorHandler");
 const jwt = require("jsonwebtoken");
 const Teacher = require("../model/teacherModel");
-const Student = require("../model/student")
+const Student = require("../model/student");
 const Chair = require("../model/chairModel");
+const SuperAdmin = require("../model/superadimn")
 
 
-
+// 
 
 exports.isAuthenticatedUser = async (req, res, next) => {
     // const { token } = req.cookies;
     // console.log(req.headers);
     // const token = req.headers.authorization.split(" ")[1];
-    const token = req.cookies.token;
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ error: 'Unauthorized access' });
+    }
+  
+    const token = authHeader.split(' ')[1];
+    // const token = req.cookies.token;
     
     if (!token) {
         return next(new ErrorHandler("Please Login for access this resource", 401));
@@ -27,6 +34,9 @@ exports.isAuthenticatedUser = async (req, res, next) => {
         }
         if (!user) {
             user = await Student.findById(decodedData.id);
+        }
+        if (!user) {
+            user = await SuperAdmin.findById(decodedData.id);
         }
     }
 

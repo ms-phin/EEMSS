@@ -12,8 +12,10 @@ import TeachRegistrationForm from './stream_chair/addTeachers.jsx';
 import QueList from './stream_chair/questionlist.jsx';
 import Studlist from './stream_chair/studlist.jsx';
 import Teachlist from './stream_chair/teachlist.jsx';
-// import Admindash from './superadmin/admin_dashboard.jsx';
+import Admindash from './superadmin/admin_dashboard.jsx';
 import Chairhome from './stream_chair/chairhome.jsx';
+import Teachers from './superadmin/teachlist.jsx';
+import Students from './superadmin/studlist.jsx';
 import Nomatch from './components/nomatch'
 
 function App() {
@@ -25,9 +27,13 @@ function App() {
   return (
     <Router>
       <Routes>
+
+        <Route path="/admindash/" element={role === "superadmin" ? <Admindash /> : <Navigate to='/login' />} />
+        <Route path="/admindash/teachers" element={role === "superadmin" ? <Teachers /> : <Navigate to='/login' />} />
+        <Route path="/admindash/students" element={role === "superadmin" ? <Students /> : <Navigate to='/login' />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path="/teacherdashboard/" element={role === "teacher" ? <QuestionForm /> : <Navigate to='/login' />} />
-        <Route path="/chairdashboard/" element={isAuthenticated ? <Chairhome /> : <Navigate to='/login' />} />
+        <Route path="/chairdashboard/" element={role === "chair" ? <Chairhome /> : <Navigate to='/login' />} />
         <Route path="/studentdashboard/" element={role === "student" ? <Main /> : <Navigate to='/login' />} />
         <Route path='/chairhome/stud_register' element={role === "chair" ? <StudRegistrationForm /> : <Navigate to='/login' />} />
         <Route path="/chairhome/teach_register" element={role === "chair" ? <TeachRegistrationForm /> : <Navigate to='/login' />} />

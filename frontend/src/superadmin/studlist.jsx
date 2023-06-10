@@ -215,24 +215,23 @@ const Students = () => {
   //     setUsers(updatedUsers);
   //   }
   // };
-  const handleToggle = (user) => {
-    const index = users.findIndex((u) => u._id === user._id);
-    if (index !== -1) {
-      const updatedUsers = [...users];
-      updatedUsers[index] = { ...updatedUsers[index], active: !updatedUsers[index].active };
-      setUsers(updatedUsers);
-    }
-  };
+  // const handleToggle = (user) => {
+  //   const index = users.findIndex((u) => u._id === user._id);
+  //   if (index !== -1) {
+  //     const updatedUsers = [...users];
+  //     updatedUsers[index] = { ...updatedUsers[index], active: !updatedUsers[index].active };
+  //     setUsers(updatedUsers);
+  //   }
+  // };
 
   return (
     <>
-      <h2>This is the List of Students</h2>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       <table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
+            <th>Student Name</th>
             <th>Email</th>
             <th>Department</th>
           </tr>
@@ -253,13 +252,13 @@ const Students = () => {
                     <button onClick={() => handleDelete(user._id)}>
                       <i className="fas fa-trash"></i>
                     </button>
-                    <button onClick={() => handleToggle(user)}>
-                      {user.active ? (
-                        <i className="fas fa-toggle-on"></i>
-                      ) : (
-                        <i className="fas fa-toggle-off"></i>
-                      )}
-                    </button>
+                    {/* <button onClick={() => handleToggle(user)}>
+                {user.active ? (
+                  <i className="fas fa-toggle-on"></i>
+                ) : (
+                  <i className="fas fa-toggle-off"></i>
+                )}
+              </button> */}
                   </>
                 )}
               </td>
@@ -291,7 +290,7 @@ const Students = () => {
               <div className="field">
                 <label className="label">Department</label>
                 <div className="control">
-                  <input className="input" type="text" value={department.name} onChange={(e) => setDepartment(e.target.value)} />
+                  <input className="input" type="text" value={department} onChange={(e) => setDepartment(e.target.value)} />
                 </div>
               </div>
 

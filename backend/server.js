@@ -14,7 +14,7 @@ app.use(cookieParser());
 const chair = require("./routes/chairRoutes");
 const register = require("./routes/uesrrouter");
 const faculty = require("./routes/facultyroute");
-const department = require("./routes/Departmentroutes");
+const superadminroute = require("./routes/superadminroute");
 const registerteacher = require("./routes/teacherroute");
 const Student = require("./routes/studentRoute")
 const connectBD = require("./database/connection");
@@ -32,7 +32,7 @@ app.use("/api", registerteacher);
 app.use("/api", register);
 app.use("/api", Student);
 app.use("/api", faculty);
-app.use("/api", department);
+app.use("/api", superadminroute);
 // app.use("/api", question);
 
 

@@ -21,8 +21,8 @@ const studentSchema = new mongoose.Schema({
         unique: true
     },
     department: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Department'
     },
     role: {
         type: String,
@@ -33,10 +33,10 @@ const studentSchema = new mongoose.Schema({
         default: 1,
         type: Boolean
     },
-    departmentId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Department'
-    },
+    // departmentId: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Department'
+    // },
     exam: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exam'
@@ -44,6 +44,9 @@ const studentSchema = new mongoose.Schema({
 });
 studentSchema.pre("save", async function (next) {
     this.password = await bcrypt.hash(this.password, 10);
+});
+studentSchema.pre("save", async function (next) {
+    this.confrimepassword = await bcrypt.hash(this.confrimepassword, 10);
 });
 studentSchema.methods.getJwtToken = function () {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET_KEY, {

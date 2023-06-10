@@ -18,13 +18,16 @@
 
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import '../style/chair.css'
 // import QuestionForm from '../teachers/upload_que';
 // import ListofUsers from './listofusers';
 // import QuestionTable from '../teachers/quetable';
 // import Header from '../components/Auth/header';
+// npm install react-router-dom
+import { useNavigate } from "react-router-dom";
+
 import { Visibility } from "@material-ui/icons";
 import {
   LineStyle,
@@ -43,10 +46,34 @@ import {
 
 const Chairhome = () => {
   const [questions, setQuestions] = useState([]);
+  const navigate = useNavigate()
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  const isAuthenticated = token && role;
+
+  useEffect(() => {
+    // console.log(isAuthenticated)
+    if (!isAuthenticated) {
+      navigate('/login')
+    }
+
+  }, [token, role])
 
   return (
     <>
-
+      <div className="profile_container">
+        <div className="image_container">
+          <img
+            src=""
+            className="student_image"
+          />
+        </div>
+        <div className="data_container">
+          <span className="">Name: Abebe Kebede</span>
+          <span className="">Department: COED</span>
+          <Link className='logout'>Log out</Link>
+        </div>
+      </div>
       {/* <Header/> */}
 
       <div className="home">

@@ -6,22 +6,23 @@ const ErrorHandler = require("../utils/ErrorHandler");
 const Department = require('../model/Department')
 const Student = require("../model/student")
 const Course = require("../model/CourseModel")
+const SuperAdmin = require("../model/superadimn")
 
 
-exports.createChair = async (req, res) => {
-    const { name, email, password, departmentId } = req.body;
-    const chair = new Chair({
-        name,
-        email,
-        password,
-        role: 'chair',
-        departmentId
-    });
-    await chair.save();
-    await Department.findByIdAndUpdate(departmentId, { $push: { chairs: chair._id } });
-    res.status(201).json(chair);
+// exports.createChair = async (req, res) => {
+//     const { name, email, password, departmentId } = req.body;
+//     const chair = new Chair({
+//         name,
+//         email,
+//         password,
+//         role: 'chair',
+//         departmentId
+//     });
+//     await chair.save();
+//     await Department.findByIdAndUpdate(departmentId, { $push: { chairs: chair._id } });
+//     res.status(201).json(chair);
 
-};
+// };
 
 //GETCHAIREBYID
 exports.getChairById = async (req, res) => {
@@ -66,39 +67,39 @@ exports.getAllQuestion = async (req, res) => {
 
 
 
-exports.createCourse = (req, res) => {
-    const { name, departmentId } = req.body;
-    const course = new Course({
-        name,
-        departmentId
-    });
-    course.save()
-        .then(result => {
-            res.status(201).json({
-                message: 'Course created successfully',
-                course: result
-            });
-        })
-        .catch(err => {
-            res.status(500).json({
-                error: err
-            });
-        });
-};
+// exports.createCourse = (req, res) => {
+//     const { name, departmentId } = req.body;
+//     const course = new Course({
+//         name,
+//         departmentId
+//     });
+//     course.save()
+//         .then(result => {
+//             res.status(201).json({
+//                 message: 'Course created successfully',
+//                 course: result
+//             });
+//         })
+//         .catch(err => {
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// };
 
-exports.getAllCourses = async (req, res) => {
-    try {
-        const courses = await Course.find();
-        res.status(200).json({
-            message: 'Courses fetched successfully',
-            courses: courses
-        });
-    } catch (error) {
-        res.status(500).json({
-            error: error
-        });
-    }
-};
+// exports.getAllCourses = async (req, res) => {
+//     try {
+//         const courses = await Course.find();
+//         res.status(200).json({
+//             message: 'Courses fetched successfully',
+//             courses: courses
+//         });
+//     } catch (error) {
+//         res.status(500).json({
+//             error: error
+//         });
+//     }
+// };
 
 
 
@@ -156,6 +157,9 @@ exports.loginUser = async (req, res, next) => {
         let user = await Chair.findOne({ email }).select("+password");
         if (!user) {
             user = await Teacher.findOne({ email }).select("+password");
+        }
+        if (!user) {
+            user = await SuperAdmin.findOne({ email }).select("+password");
         }
         if (!user) {
             user = await Student.findOne({ email }).select("+password");

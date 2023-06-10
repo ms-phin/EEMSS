@@ -201,26 +201,28 @@ exports.registerTeacher = async (req, res) => {
         const { name, email, password, confirmPassword, department, course } = req.body;
 
         // Check if department exists
-        // const existingDepartment = await Department.findById(departmentId).populate('chairId');
-        // console.log("existingDepartment", req.user._id)
+        const existingDepartment = await Department.findOne({ _id: department }).populate('chairId');
+        console.log("existingDepartment", existingDepartment);
+        console.log("logged in person _id", req.user._id)
         // console.log("existingDepartment", existingDepartment.chairId._id)
 
 
-        // if (!existingDepartment) {
-        //     return res.status(404).json({ error: 'Department not found' });
-        // }
+
+        if (!existingDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
 
         // Check if authenticated user is the chair of the department
         // Check if authenticated user is the chair of the department
-        // if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
-        //     return res.status(403).json({ error: 'You are not authorized to add a teacher to this department' });
-        // }
+        if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'You are not authorized to add a teacher to this department' });
+        }
 
         // Check if course exists
-        // const existingCourse = await Course.findById(courseId);
-        // if (!existingCourse) {
-        //     return res.status(404).json({ error: 'Course not found' });
-        // }
+        const existingCourse = await Course.findOne({ _id: course });
+        if (!existingCourse) {
+            return res.status(404).json({ error: 'Course not found' });
+        }
 
         // Create new teacher
         const teacher = new Teacher({
@@ -237,10 +239,10 @@ exports.registerTeacher = async (req, res) => {
         await teacher.save();
 
         // Add teacher to department
-        // existingDepartment.teachers.push(teacher._id);
-        // await existingDepartment.save();
-        // existingCourse.teachers.push(teacher._id);
-        // await existingCourse.save();
+        existingDepartment.teachers.push(teacher._id);
+        await existingDepartment.save();
+        existingCourse.teachers.push(teacher._id);
+        await existingCourse.save();
 
         res.status(201).json({
             message: 'Teacher created successfully',
@@ -258,21 +260,24 @@ exports.registerStudent = async (req, res) => {
     try {
         const { name, email, password, confrimepassword, department } = req.body;
 
-        // // Check if department exists
-        // const existingDepartment = await Department.findById(departmentId).populate('chairId');
-        // console.log("existingDepartment", req.user._id)
+        // Check if department exists
+        // const existingDepartment = await Department.findOne(department).populate('chairId');
+        const existingDepartment = await Department.findOne({ _id: department }).populate('chairId');
+        console.log("user", req.user._id)
         // console.log("existingDepartment", existingDepartment.chairId._id)
+        console.log("existingDepartment", existingDepartment);
 
 
-        // if (!existingDepartment) {
-        //     return res.status(404).json({ error: 'Department not found' });
-        // }
 
-        // // Check if authenticated user is the chair of the department
-        // // Check if authenticated user is the chair of the department
-        // if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
-        //     return res.status(403).json({ error: 'You are not authorized to add a Student to this department' });
-        // }
+        if (!existingDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        // Check if authenticated user is the chair of the department
+        // Check if authenticated user is the chair of the department
+        if (!existingDepartment.chairId || existingDepartment.chairId._id.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ error: 'You are not authorized to add a Student to this department' });
+        }
         const student = new Student({
             name,
             email,
@@ -282,7 +287,7 @@ exports.registerStudent = async (req, res) => {
             department
         });
         await student.save();
-        // await Student.findByIdAndUpdate(departmentId, { $push: { students: student._id } });
+        // await Student.findByIdAndUpdate(department, { $push: { students: student._id } });
         res.status(201).json({
             success: true,
             student
@@ -389,11 +394,40 @@ exports.UpdateTeacher = async (req, res) => {
 //         res.status(500).json({ msg: "Server Error" });
 //     }
 // }
+// exports.seeStudent = async (req, res) => {
+//     try {
+//         // const students = await Student.find({ departmentId: req.user.departmentId, role: "student" }).populate('departmentId');
+//         const students = await Student.find({ role: "student" })
+//         console.log("students", students[0].name)
+//         console.log("students", students.department)
+//         const existingDepartment = await Department.findOne({ _id: department }).populate('chairId');
+//         if (students.length === 0) {
+//             res.status(404).json({ msg: "No students found for the given department" });
+//         } else {
+//             res.json(students);
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({ msg: "Server Error" });
+//     }
+
+// };
 exports.seeStudent = async (req, res) => {
     try {
-        const students = await Student.find({ departmentId: req.user.departmentId, role: "student" }).populate('departmentId');
-        if (students.length === 0) {
-            res.status(404).json({ msg: "No students found for the given department" });
+        const studentList = await Student.find({ role: "student" }).populate('department');
+        const students = studentList.map(student => ({
+            _id: student._id,
+            name: student.name,
+            email: student.email,
+            password: student.password,
+            confrimepassword: student.confrimepassword,
+            role: student.role,
+            ActivateStudent: student.ActivateStudent,
+            exam: student.exam,
+            department: student.department ? student.department.name : null
+        }));
+        if (studentList.length === 0) {
+            res.status(404).json({ msg: "No students found" });
         } else {
             res.json(students);
         }
@@ -403,17 +437,24 @@ exports.seeStudent = async (req, res) => {
     }
 };
 
+
 exports.seeTeacher = async (req, res) => {
-    // const usr = await Teacher.find({ role: "teacher" })
-    // if (!usr) {
-    //     console.log(error);
-    //     res.json({ msg: "some error!" });
-    // }
-    // else {
-    //     res.json({ user: usr });
-    // }
+
     try {
-        const teachers = await Teacher.find({ role: "teacher" });
+        const teacherList = await Teacher.find({ role: "teacher" }).populate('department');
+        const teachers = teacherList.map(teacher => ({
+            _id: teacher._id,
+            name: teacher.name,
+            email: teacher.email,
+            password: teacher.password,
+            confrimepassword: teacher.confrimepassword,
+            role: teacher.role,
+            ActivateStudent: teacher.ActivateStudent,
+            exam: teacher.exam,
+            department: teacher.department ? teacher.department.name : null
+        }));
+        // const teachers = await Teacher.find({ role: "teacher" });
+        // console.log("teachers", teachers)
         if (teachers.length === 0) {
             res.status(404).json({ msg: "No teacher  found for the given department" });
         } else {

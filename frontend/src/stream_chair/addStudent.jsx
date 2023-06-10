@@ -240,7 +240,8 @@ export default function DeptRegistrationForm() {
         })
         .catch((error) => {
           // console.log(error.response.data);
-          alert("there some error");
+          alert(error.response.data.error);
+          // or display the error message in the UI using state or props
         });
     } finally {
       setSubmitting(false);
@@ -323,7 +324,7 @@ export default function DeptRegistrationForm() {
                     </option>
                     {departmentOptions &&
                       departmentOptions.map((option) => (
-                        <option key={option._id} value={option.name}>
+                        <option key={option._id} value={option._id}>
                           {option.name}
                         </option>
                       ))}
