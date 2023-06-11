@@ -40,8 +40,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/*' element={<Nomatch />} />
         <Route path='/studentdashboard/login/main/exa' element={role === "student" ? <Exam /> : <Navigate to='/login' />} />
-        <Route path='/studentdashboard/login/main/exa/result' element={role === "student" ? <Result /> : <Navigate to='/login' />} />
-
+        <Route path='/result' element={role === "student" ? <Result /> : <Navigate to='/login' />} />
         <Route path='/chairhome/list' element={role === "chair" ? <QueList /> : <Navigate to='/login' />} />
         <Route path='/chairhome/listofteach' element={role === "chair" ? <Teachlist /> : <Navigate to='/login' />} />
         <Route path='/chairhome/listofstud' element={role === "chair" ? <Studlist /> : <Navigate to='/login' />} />

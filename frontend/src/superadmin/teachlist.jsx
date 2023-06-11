@@ -40,16 +40,15 @@ const Students = () => {
       }
     };
   }
-
   const handleSave = async () => {
-    // Handle save button click
-    console.log(`Saving user with id ${editingUser.id}`);
+    console.log(`Updating teacher with id ${editingUser.id}`);
     try {
-      await axios.put(`/users/${editingUser.id}`, {
+      const response = await axios.put(`http://localhost:5000/api/UpdateTeacher/${editingUser.id}`, {
         name,
         email,
         department,
       });
+      console.log(response.data); // log the response data
       setUsers(
         users.map((user) =>
           user._id === editingUser.id ? { ...user, name, email, department } : user
@@ -64,6 +63,7 @@ const Students = () => {
       console.log(err);
     }
   };
+
   const handleAddUser = () => {
     const newUser = {
       id: users.length + 1,

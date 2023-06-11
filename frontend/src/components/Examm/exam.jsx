@@ -101,7 +101,7 @@ export default function Exam() {
     setChecked(check)
   }
   if (result.length && result.length >= queue.length) {
-    return <Navigate to='./login/main/exa/result' replace="true"></Navigate>
+    return <Navigate to='./result' replace="true"></Navigate>
   }
 
   const minutes = Math.floor(time / 60);

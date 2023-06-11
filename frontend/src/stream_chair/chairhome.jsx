@@ -50,7 +50,26 @@ const Chairhome = () => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
   const isAuthenticated = token && role;
+  const handleLogout = async () => {
 
+    try {
+      const response = await fetch('http://localhost:5000/api/logout/user', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
   useEffect(() => {
     // console.log(isAuthenticated)
     if (!isAuthenticated) {
@@ -71,7 +90,9 @@ const Chairhome = () => {
         <div className="data_container">
           <span className="">Name: Abebe Kebede</span>
           <span className="">Department: COED</span>
-          <Link className='logout'>Log out</Link>
+          {/* <Link className='logout'>Log out</Link> */}
+          <Link className='logout' onClick={handleLogout}>Log out</Link>
+
         </div>
       </div>
       {/* <Header/> */}
