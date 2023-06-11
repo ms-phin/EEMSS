@@ -1,3 +1,80 @@
+.foorm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-control {
+  width: 80%;
+  max-width: 400px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0px 0px 5px rgba(0, 119, 255, 0.5);
+}
+
+.form-text {
+  font-size: 14px;
+  color: #dc3545;
+  margin-top: 5px;
+}
+
+.form-toggle {
+  position: relative;
+}
+
+.form-toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-switch {
+  display: block;
+  width: 60px;
+  height: 34px;
+  border-radius: 17px;
+  background-color: #ccc;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle-switch::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s;
+}
+
+.form-toggle input[type="checkbox"]:checked+.toggle-switch {
+  background-color: #1abc9c;
+}
+
+.form-toggle input[type="checkbox"]:checked+.toggle-switch::before {
+  transform: translateX(26px);
+}
+
 /* exammm.css
 .foorm{
   width: 100vw;
@@ -53,7 +130,7 @@ form
   text-align: left;
 } */
 /* .form-label { */
- /* width: 150px;
+/* width: 150px;
   text-align: right;
   transform: translateY(-100%) translateX(-100vmax);
   width: 40%;
@@ -61,8 +138,8 @@ form
   margin: auto;
   margin-top: -10%; */
 
-  /* width: 80%; */
-  /* background-color: white;
+/* width: 80%; */
+/* background-color: white;
   background: none;
   box-sizing: border-box;
   display: flex;
@@ -70,17 +147,17 @@ form
   padding: 3px;
   background-color: whitesmoke; */
 
-  /* margin-bottom: 3px; */
-  /* box-shadow: 15px 15px 15px white, 
+/* margin-bottom: 3px; */
+/* box-shadow: 15px 15px 15px white, 
     -15px 15px 15px white;
   border-radius: 10px;  */
-  /* background-color: white; */
+/* background-color: white; */
 
 
 /* .form-control {
   font-size: 100%;
 } */
- /* border-radius: 0;
+/* border-radius: 0;
  text-align: left;
  padding: 20px 20px;
  border: 2px solid #0000001a;
@@ -129,8 +206,8 @@ form
   border: 2px solid #0000001a;
   padding: 10px;
   margin-right: 17%; */
-  /* margin-top: ; */
-  /* left: 0;
+/* margin-top: ; */
+/* left: 0;
   width: 50vw;
   height: 90vh;
   background-size: 100vh;

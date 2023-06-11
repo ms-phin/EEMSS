@@ -21,6 +21,9 @@ import {
 const Admindash = () => {
   const [questions, setQuestions] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
   const handleLogout = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/logout/user', {
@@ -41,21 +44,14 @@ const Admindash = () => {
     }
   }
 
-
-
   return (
     <>
 
       {/* <Header/> */}
       <div>
-        <Link
-          to="/"
-          onMouseEnter={() => setShowProfile(true)}
-          onMouseLeave={() => setShowProfile(false)}
-          className='view'>
-          View Profile
-        </Link>
-
+        <button onClick={toggleProfile} className='view'>
+          View my Profile
+        </button>
         {showProfile && (
           <div className="profile_container">
             <div className="image_container">
@@ -68,9 +64,7 @@ const Admindash = () => {
             <div className="data_container">
               <span className="">Name: Abebe Kebede</span>
               <span className="">Id: 11031234</span>
-              {/* <Link className='logout'>Log out</Link> */}
-              <Link className='logout' onClick={handleLogout}>Log out</Link>
-
+              <Link className='logout'>Log out</Link>
             </div>
           </div>
         )}

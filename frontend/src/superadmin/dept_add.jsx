@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import '../style/allRegister.css';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -6,6 +6,9 @@ import * as Yup from 'yup';
 
 export default function DeptRegistration() {
   const [department, setDepartment] = useState('');
+  
+ const [faculity, setFaculity] = useState('');
+ const [faculityOptions, setFaculityOptions] = useState([]);
  
   // const validationSchema = Yup.object().shape({
   //   username: Yup.string().required('Username is required'),
@@ -24,10 +27,24 @@ export default function DeptRegistration() {
 
   const handleSubmit = (values, { setSubmitting }) => {
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       setSubmitting(false);
     }, 400);
   };
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/getFaculties')
+      .then((response) => {
+        setDepartmentOptions(response.data);
+        console.log(response.data)
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    }, []);
+
+    
 
   return (
     <Formik
@@ -50,18 +67,21 @@ export default function DeptRegistration() {
                 <div className="select">
                   <Field
                     as="select"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
+                    value={faculity}
+                    onChange={(e) => setFaculity(e.target.value)
+                    }
+                    name="faculity"
                   >
-                    <option value="" disabled hidden>
-                    --- Select a Faculty ---
-                    </option>
-                    <option value="department1">Electrical and Computer engineering</option>
-                    <option value="department2">computing Faculity</option>
-                    <option value="department3">Mechanical and Industrial Engineering</option>
-                    <option value="department4">Chemical and Food Engineering</option>
-                    <option value="department5">Civil, Hydraulic and Water Engineering</option>
 
+                    <option value="" disabled hidden>
+                      --- Select a faculity ---
+                    </option>
+                    {faculityOptions &&
+                      setFaculityOptions.map((option) => (
+                        <option key={option._id} value={option._id}>
+                          {option.name}
+                        </option>
+                      ))}
                   </Field>
                   <div className="select-arrow"></div>
                 </div>

@@ -10,6 +10,9 @@ const router = express.Router();
 
 router.route("/active-exams").get(getActiveExams);
 router.route("/getActiveExamsDuration").get(getActiveExamsDuration);
+router.route("/storeResult").post(getActiveExamsDuration);
+
+
 
 // getActiveExamsDuration
 

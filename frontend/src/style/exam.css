@@ -1,0 +1,66 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.25rem;
+}
+
+.form-container h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.form-container .mb-3 {
+    width: 5%;
+    max-width: 40rem;
+    margin-bottom: 1rem;
+}
+
+.forum {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.for {
+    display: block;
+    width: 50%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+.form-container .form-text {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #dc3545;
+}
+
+.button-primary {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+    background-color: rgb(81, 152, 179);
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 20%;
+}
+
+.button-primary:hover,
+.button-primary:focus {
+
+    background-color: #f0f0f0;
+    color: #202020;
+}

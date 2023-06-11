@@ -8,6 +8,8 @@ const Chair = require("../model/chairModel")
 const SuperAdmin = require("../model/superadimn")
 const Student = require("../model/student")
 const Course = require("../model/CourseModel")
+// const Faculty = require('../model/Faculty');
+
 
 exports.createDepartment = async (req, res) => {
     const { name, facultyId, chairId } = req.body;
@@ -96,4 +98,29 @@ exports.createSuperAdmin = async (req, res) => {
     // await Department.findByIdAndUpdate(departmentId, { $push: { chairs: chair._id } });
     res.status(201).json(superAdmin);
 
+};
+
+// Create a new Faculty
+exports.createFaculty = async (req, res) => {
+    const { name } = req.body;
+    const faculty = new Faculty({ name });
+    try {
+        await faculty.save();
+        res.status(201).json(faculty);
+    } catch (err) {
+        if (err.code === 11000 && err.keyValue.name === name) {
+            res.status(400).json({ message: "Faculty with this name already exists." });
+        } else {
+            res.status(500).json({ message: "An error occurred while creating the faculty." });
+        }
+    }
+};
+
+exports.getFaculties = async (req, res) => {
+    try {
+        const faculties = await Faculty.find();
+        res.status(200).json(faculties);
+    } catch (err) {
+        res.status(500).json({ message: "An error occurred while getting faculties." });
+    }
 };

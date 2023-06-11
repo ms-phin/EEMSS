@@ -21,6 +21,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import '../style/chair.css'
+import ExamForm from './Examsession'
 // import QuestionForm from '../teachers/upload_que';
 // import ListofUsers from './listofusers';
 // import QuestionTable from '../teachers/quetable';
@@ -129,10 +130,10 @@ const Chairhome = () => {
                       List of Added Questions
                     </li>
                   </Link>
-                  <Link to="/chairhome/examform" className="link">
+                  <Link to="/chairdashboard/createxam" className="link">
                     <li className="sidebarListItem">
                       <Storefront className="sidebarIcon" />
-                      Set Exam
+                      Create Exam
                     </li>
                   </Link>
                   <Link to="/chairhome/listofteach" className="link">
@@ -152,9 +153,9 @@ const Chairhome = () => {
             </div>
           </div>
           {/* <ListofUsers/> */}
-
+          <ExamForm />
         </div>
-      </div>
+      </div >
     </>
 
   );

@@ -14,7 +14,9 @@ const QuestionForm = () => {
   const [formErrors, setFormErrors] = useState({});
   const [questions, setQuestions] = useState([]);
   const [showProfile, setShowProfile] = useState(false);
-  useEffect(() => {
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };  useEffect(() => {
     console.log(questions);
   }, [questions]);
 
@@ -96,6 +98,7 @@ const QuestionForm = () => {
 
   const renderOption = (option, index) => {
     return (
+
       <div key={index}>
         <label htmlFor={`option${index + 1}`}>Option {index + 1}:</label>
         <select
@@ -137,31 +140,26 @@ const QuestionForm = () => {
 
   return (
     <>
-    <div>
-      <Link 
-        to="/"
-        onMouseEnter={() => setShowProfile(true)}
-        onMouseLeave={() => setShowProfile(false)}
-        className='view'>
-        View Profile
-      </Link>
-      
-      {showProfile && (
-      <div className="profile_container">
-        <div className="image_container">
-          <img
-            src=""
-            alt=""
-            className="student_image"
-          />
-        </div>
-        <div className="data_container">
-          <span className="">Name: Abebe Kebede</span>
-          <span className="">Id: 11031234</span>
-          <Link className='logout'>Log out</Link>
-        </div>
-      </div>
-            )}
+  <div>
+        <button onClick={toggleProfile} className='view'>
+          View my Profile
+        </button>
+        {showProfile && (
+          <div className="profile_container">
+            <div className="image_container">
+              <img
+                src=""
+                alt=""
+                className="student_image"
+              />
+            </div>
+            <div className="data_container">
+              <span className="">Name: Abebe Kebede</span>
+              <span className="">Id: 11031234</span>
+              <Link className='logout'>Log out</Link>
+            </div>
+          </div>
+        )}
       </div>
     <div className="question-form-container">
       <form onSubmit={handleSubmit}>
