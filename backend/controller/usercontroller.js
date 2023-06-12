@@ -4,7 +4,7 @@ const Teacher = require("../model/teacherModel")
 const { sendTokenUser } = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/ErrorHandler");
 const Department = require('../model/Department')
-const Student = require("../model/student")
+const Student = require('../model/student')
 const Course = require("../model/CourseModel")
 const SuperAdmin = require("../model/superadimn")
 
@@ -155,14 +155,15 @@ exports.loginUser = async (req, res, next) => {
 
     try {
         let user = await Chair.findOne({ email }).select("+password");
+
         if (!user) {
             user = await Teacher.findOne({ email }).select("+password");
         }
         if (!user) {
-            user = await SuperAdmin.findOne({ email }).select("+password");
+            user = await Student.findOne({ email }).select("+password");
         }
         if (!user) {
-            user = await Student.findOne({ email }).select("+password");
+            user = await SuperAdmin.findOne({ email }).select("+password");
         }
         if (!user) {
             return next(new ErrorHandler("Invalid credentials", 401));

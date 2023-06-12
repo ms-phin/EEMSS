@@ -7,6 +7,26 @@ export default function Main() {
 
   const inputRef = useRef(null)
   const dispatch = useDispatch()
+  const handleLogout = async () => {
+
+    try {
+      const response = await fetch('http://localhost:5000/api/logout/user', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function startQuiz() {
     if (inputRef.current?.value) {
@@ -25,7 +45,9 @@ export default function Main() {
         <div className="data_container">
           <span className="">Name: Abebech Seid</span>
           <span className="">Id: 11031234</span>
-          <Link className='logout'>Log out</Link>
+          {/* <Link className='logout'>Log out</Link> */}
+          <Link className='logout' onClick={handleLogout}>Log out</Link>
+
         </div>
       </div>
       <h1 className='title text-light'>Instructions you should follow</h1>

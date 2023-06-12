@@ -17,7 +17,7 @@ import Chairhome from './stream_chair/chairhome.jsx';
 import Teachers from './superadmin/teachlist.jsx';
 import Students from './superadmin/studlist.jsx';
 import DeptRegistration from './superadmin/dept_add.jsx';
-import FaculRegistration from './superadmin/facul_add.jsx';
+// import FaculRegistration from './superadmin/facul_add.jsx';
 import Course from './superadmin/addcourse.jsx';
 // import CreatExam from './stream_chair/createexam';
 import CreatExam from './stream_chair/creatExam.jsx';
@@ -48,7 +48,7 @@ function App() {
         <Route path="/admindash/" element={isAuthenticated ? < Admindash /> : <Navigate to='/login' />} />
         <Route path="/admindash/course" element={isAuthenticated ? < Course /> : <Navigate to='/login' />} />
         <Route path="/admindash/dept_add" element={isAuthenticated ? < DeptRegistration /> : <Navigate to='/login' />} />
-        <Route path="/admindash/facul_add/" element={isAuthenticated ? < FaculRegistration /> : <Navigate to='/login' />} />
+        {/* <Route path="/admindash/facul_add/" element={isAuthenticated ? < FaculRegistration /> : <Navigate to='/login' />} /> */}
         <Route path="/admindash/teachers" element={role === "superadmin" ? <Teachers /> : <Navigate to='/login' />} />
         <Route path="/admindash/students" element={role === "superadmin" ? <Students /> : <Navigate to='/login' />} />
         <Route path='/login' element={<LoginForm />} />

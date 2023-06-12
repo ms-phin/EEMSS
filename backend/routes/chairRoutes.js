@@ -31,7 +31,7 @@ router.route("/updateStudent/:id").put(isAuthenticatedUser, authorizeRoles("chai
 router.route("/UpdateTeacher/:id").put(isAuthenticatedUser, authorizeRoles("chair"), UpdateTeacher);
 router.route("/blockStudent/:id").delete(isAuthenticatedUser, authorizeRoles("chair"), blockStudent);
 router.route("/deleteTeacher/:id").delete(isAuthenticatedUser, authorizeRoles("chair"), deleteTeacher);
-router.route("/updateTeacher").put(isAuthenticatedUser, authorizeRoles("chair"), updateTeacher);
+router.route("/updateTeacher").put(isAuthenticatedUser, authorizeRoles("chair"), UpdateTeacher);
 router.route("/registerTeacher").post(isAuthenticatedUser, authorizeRoles("chair"), registerTeacher);
 router.route("/registerStudent").post(isAuthenticatedUser, authorizeRoles("chair"), registerStudent);
 router.route("/getAllQuestion/:id").get(isAuthenticatedUser, authorizeRoles("chair"), getAllQuestion);

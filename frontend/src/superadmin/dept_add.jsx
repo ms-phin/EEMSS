@@ -1,5 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import '../style/allRegister.css';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -35,7 +36,7 @@ export default function DeptRegistration() {
     axios
       .get('http://localhost:5000/api/getFaculties')
       .then((response) => {
-        setDepartmentOptions(response.data);
+        setFaculityOptions(response.data);
         console.log(response.data)
 
       })
@@ -64,51 +65,37 @@ export default function DeptRegistration() {
               <br />
               
               <label>
-                <div className="select">
+              <div className="select">
+                <Field
+                  as="select"
+                  value={faculity}
+                  onChange={(e) => setFaculity(e.target.value)}
+                  name="faculity"
+                >
+                  <option value="" disabled hidden>
+                    --- Select a faculity ---
+                  </option>
+                  {faculityOptions &&
+                    faculityOptions.map((option) => (
+                      <option key={option._id} value={option._id}>
+                        {option.name}
+                      </option>
+                    ))}
+                </Field>
+                <div className="select-arrow"></div>
+              </div>
+            </label>
+                <div className="username">
                   <Field
-                    as="select"
-                    value={faculity}
-                    onChange={(e) => setFaculity(e.target.value)
-                    }
-                    name="faculity"
-                  >
-
-                    <option value="" disabled hidden>
-                      --- Select a faculity ---
-                    </option>
-                    {faculityOptions &&
-                      setFaculityOptions.map((option) => (
-                        <option key={option._id} value={option._id}>
-                          {option.name}
-                        </option>
-                      ))}
-                  </Field>
-                  <div className="select-arrow"></div>
+                    className="form__input"
+                    type="text"
+                    id="department"
+                    placeholder="Enter department Name"
+                    name="department"
+                  />
+                  <ErrorMessage name="username" />
                 </div>
-              </label>
-              <label>
-                <div className="select">
-                  <Field
-                    as="select"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
-                  >
-
-                    <option value="" disabled hidden>
-                    --- Select a department ---
-                    </option>
-                    <option value="department1">Electrical engineering</option>
-                    <option value="department2">Computer engineering</option>
-                    <option value="department3">civil engineering</option>
-                    <option value="department4">Mechanical engineering</option>
-                    <option value="department5">Industrial engineering</option>
-                    <option value="department6">Chemical engineering</option>
-                    <option value="department8">Food engineering</option>
-                    <option value="department9">Nutrition engineering</option>
-                  </Field>
-                  <div className="select-arrow"></div>
-                </div>
-              </label>
+              
 
               <button type="submit" className="btn" disabled={isSubmitting}>
                 Add

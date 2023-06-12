@@ -1,176 +1,262 @@
-import React, { useState } from 'react';
-import '../style/allRegister.css';
-import { Link } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
-export default function FaculRegistration() {
-  const [department, setDepartment] = useState('');
+// // import React, { useState } from 'react';
+// // import '../style/allRegister.css';
+// // import { Formik, Form, Field, ErrorMessage } from 'formik';
+// // import * as Yup from 'yup';
 
-  // const validationSchema = Yup.object().shape({
-  //   username: Yup.string().required('Name is required'),
-  //   email: Yup.string().email('Invalid email').required('Email is required'),
-  //   password: Yup.string().required('Password is required'),
-  //   confirmPassword: Yup.string()
-  //   .oneOf([Yup.ref('password'), null], 'Passwords must match')
-  //   .required('Confirm Password is required'),
-  // });
+// // export default function FaculRegistration() {
+// //   const [faculty, setFaculty] = useState('');
 
-  const initialValues = {
-    FacultyName: '',
-  };
+// //   const initialValues = {
+// //     FacultyName: '',
+// //   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
-  };
+// //   const validationSchema = Yup.object().shape({
+// //     FacultyName: Yup.string().required('Faculty Name is required'),
+// //   });
 
-  return (
-    <Formik
-      initialValues={initialValues}
-      // validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({ isSubmitting }) => (
-        <Form>
-          <div className="form">
-            <div className="form-body">
-              <div className="header">
-               
-                <p>Welcome , please <b className='head'>Add Faculty</b></p>
+// //   const handleSubmit = (values, { setSubmitting }) => {
+// //     setTimeout(() => {
+// //       alert(JSON.stringify(values, null, 2));
+// //       setSubmitting(false);
+// //     }, 400);
+// //   };
 
-              </div>
-              <br />
+// //   return (
+// //     <Formik
+// //       initialValues={initialValues}
+// //       validationSchema={validationSchema}
+// //       onSubmit={handleSubmit}
+// //     >
+// //       {({ isSubmitting }) => (
+// //         <Form>
+// //           <div className="form">
+// //             <div className="form-body">
+// //               <div className="header">
+// //                 <p>Welcome, please <b className='head'>Add Faculty</b></p>
+// //               </div>
+// //               <br />
 
-              <label>
-                <div className="select">
-                  <Field
-                    as="select"
-                    value={department}
-                    onChange={(e) => setDepartment(e.target.value)}
-                  >
-                    <option value="" disabled hidden>
-                   --- Select a Faculity ---
-                    </option>
-                    <option value="department1">Electrical and Computer engineering</option>
-                    <option value="department2">computing Faculity</option>
-                    <option value="department3">Mechanical and Industrial Engineering</option>
-                    <option value="department4">Chemical and Food Engineering</option>
-                    <option value="department5">Civil, Hydraulic and Water Engineering</option>
+// //               <label>
+// //                 <div className="select">
+// //                   <Field
+// //                     className="form__input"
+// //                     type="text"
+// //                     id="faculty"
+// //                     placeholder="Enter Faculty Name"
+// //                     name="FacultyName"
+// //                     value={faculty}
+// //                     onChange={(e) => setFaculty(e.target.value)}
+// //                   />
+// //                   <ErrorMessage name="FacultyName" />
+// //                 </div>
+// //               </label>
 
-                  </Field>
-                  <div className="select-arrow"></div>
-                </div>
-              </label>
-     
-           
-
-              <button type="submit" className="btn" disabled={isSubmitting}>
-                Add
-              </button>
-            </div>
-          </div>
-        </Form>
-      )}
-    </Formik>
-  );
-}
+// //               <button type="submit" className="btn" disabled={isSubmitting}>
+// //                 Add
+// //               </button>
+// //             </div>
+// //           </div>
+// //         </Form>
+// //       )}
+// //     </Formik>
+// //   );
+// // }
 
 
-// import React, {useState} from 'react';
-// import '../style/allRegister.css'
-// import { Link } from "react-router-dom";
+// // import React, { useState } from 'react';
+// // import '../style/allRegister.css';
+// // import { Formik, Form, Field, ErrorMessage } from 'formik';
+// // import * as Yup from 'yup';
+// // import axios from 'axios';
 
-// // import Footer from './footer';
+// // export default function FaculRegistration() {
+// //   const [faculty, setFaculty] = useState('');
 
-// // import MetaData from '../more/metadata';
+// //   const initialValues = {
+// //     FacultyName: '',
+// //   };
 
-//     // } else {
-//     //   setUser({ ...user, [e.target.name]: e.target.value });
-//     // }
+// //   const validationSchema = Yup.object().shape({
+// //     FacultyName: Yup.string().required('Faculty Name is required'),
+// //   });
 
-// export default function SupRegistrationForm() {
-//     const [department, setDepartment] = useState('');
+// //   const handleSubmit = async (values, { setSubmitting }) => {
+// //     try {
+// //       const response = await axios.post('http://localhost:5000/api/createfaculty',
+// //         values, {
 
-//     const [avatar, setAvatar] = useState("/profile.png");
-//     const [avatarPreview, setAvatarPreview] = useState("/profile.png");
-//   const registerDataChange = (e) => {
-//       if (e.target.name === "avatar") {
-//         const reader = new FileReader();
-  
-//         reader.onload = () => {
-//           if (reader.readyState === 2) {
-//             setAvatarPreview(reader.result);
-//             setAvatar(reader.result);
+// //         headers: {
+// //           'Content-Type': 'application/json',
+// //           'Authorization': 'Bearer ' + token
+// //         }
+// //       })
+// //         .then((response) => {
+// //           // console.log(response.data);
+// //           alert('Faculty added successfully');;
+// //         })
+
+// //     } catch (error) {
+// //       alert('Error adding faculty');
+// //     }
+// //     setSubmitting(false);
+// //   };
+
+// //   return (
+// //     <Formik
+// //       initialValues={initialValues}
+// //       validationSchema={validationSchema}
+// //       onSubmit={handleSubmit}
+// //     >
+// //       {({ isSubmitting }) => (
+// //         <Form>
+// //           <div className="form">
+// //             <div className="form-body">
+// //               <div className="header">
+// //                 <p>Welcome, please <b className='head'>Add Faculty</b></p>
+// //               </div>
+// //               <br />
+
+// //               <label>
+// //                 <div className="select">
+// //                   <Field
+// //                     className="form__input"
+// //                     type="text"
+// //                     id="faculty"
+// //                     placeholder="Enter Faculty Name"
+// //                     name="FacultyName"
+// //                     value={faculty}
+// //                     onChange={(e) => setFaculty(e.target.value)}
+// //                   />
+// //                   <ErrorMessage name="FacultyName" />
+// //                 </div>
+// //               </label>
+
+// //               <button type="submit" className="btn" disabled={isSubmitting}>
+// //                 Add
+// //               </button>
+// //             </div>
+// //           </div>
+// //         </Form>
+// //       )}
+// //     </Formik>
+// //   );
+// // }
+
+
+// import React, { useState } from 'react';
+// import '../style/allRegister.css';
+// import { Formik, Form, Field, ErrorMessage } from 'formik';
+// import * as Yup from 'yup';
+// import axios from 'axios';
+
+// export default function FaculRegistration({ token }) { // Pass token as a prop
+//   const [faculty, setFaculty] = useState('');
+
+//   const initialValues = {
+//     FacultyName: '',
+//   };
+
+//   // const validationSchema = Yup.object().shape({
+//   //   FacultyName: Yup.string().required('Faculty Name is required'),
+//   // });
+//   try {
+//     const formData = new FormData();
+//     formData.append('department', department);
+
+//     const token = localStorage.getItem('token');
+//     const role = localStorage.getItem('role');
+//     console.log(token)
+//     console.log(role)
+
+//     const handleSubmit = async (values, { setSubmitting }) => {
+//       try {
+//         axios.post('http://localhost:5000/api/createfaculty', formData, {
+
+//           headers: {
+//             'Content-Type': 'application/json',
+//             'Authorization': 'Bearer ' + token
 //           }
-//         };
-  
-//         reader.readAsDataURL(e.target.files[0]);}
-//           };
-//     return(
-//         <>
-//         {/* <MetaData title="BiT EEMS"/> */}
+//         })
+//           .then((response) => {
+//             alert('Faculty added successfully');
+//           })
 
-//       {/* <Header/> */}
-       
-//       <div className="form">
+//       } catch (error) {
+//         alert('Error adding faculty');
+//       }
+//       setSubmitting(false);
+//     };
 
-//           <div className="form-body">
-//           <div className="header">
-//             <p>Welcome , please <b className='head'>Register Faculity Heads</b></p>
-//           </div>
-//           <br></br>
-//           <div className='enter'>
-//               <div className="username">
-
-//                   <input className="form__input" type="text" id="firstName" placeholder="Enter Full Name"/>
-//               </div>
-
-//               <div className="email">
-
-//                   <input  type="email" id="email" className="form__input" placeholder="Enter Email"/>
-//               </div>
-
-//               <div className="password">
-
-//                   <input className="form__input" type="password"  id="password" placeholder="Enter Password"/>
-//               </div>
-
-//               <div className="confirm-password">
-//                   <input className="form__input" type="password" id="confirmPassword" placeholder="Confirm Password"/>
-//                   </div>
-//                   </div>  
-
-//             <label>
-//                     <div className='select'>
-//                        <select value={department} onChange={(e) => setDepartment(e.target.value)}>
-//                         <option value="" disabled hidden>Select a Faculity</option>
-//                         <option value="department1">Electrical and Computer engineering</option>
-//                         <option value="department2">computing Faculity</option>
-//                         <option value="department2">Mechanical and Industrial Engineering</option>
-//                         <option value="department2">Chemical and Food Engineering</option>
-//                         <option value="department2">Civil, Hydraulic and Water Engineering</option>
-//                    </select>
-//                         {/* <div className="select-arrow"></div> */}
-
-//                     </div>
-
-//               </label>
-//                   <div id="registerImage">
-//                     <img  src={avatarPreview} alt="Avatar Preview" />
-//                     <input
-//                     type="file"
-//                     name="avatar"
-//                     accept="image/*"
-//                     onChange={registerDataChange}
-//                     />
+//     return (
+//       <Formik
+//         initialValues={initialValues}
+//         // validationSchema={validationSchema}
+//         onSubmit={handleSubmit}
+//       >
+//         {({ isSubmitting }) => (
+//           <Form>
+//             <div className="form">
+//               <div className="form-body">
+//                 <div className="header">
+//                   <p>Welcome, please <b className='head'>Add Faculty</b></p>
 //                 </div>
-//                    <Link className="btn" to="/login/main"> Register </Link>
+//                 <br />
 
+//                 <label>
+//                   <div className="select">
+//                     <Field
+//                       className="form__input"
+//                       type="text"
+//                       id="faculty"
+//                       placeholder="Enter Faculty Name"
+//                       name="FacultyName"
+//                       value={faculty}
+//                       onChange={(e) => setFaculty(e.target.value)}
+//                     />
+//                     <ErrorMessage name="FacultyName" />
+//                   </div>
+//                 </label>
+
+//                 <button type="submit" className="btn" disabled={isSubmitting}>
+//                   Add
+//                 </button>
 //               </div>
-//           </div>  
-//       </>
-//     )       
+//             </div>
+//           </Form>
+//         )}
+//       </Formik>
+//     );
+//   }
+
+// formData.append('department', department);
+
+//   const token = localStorage.getItem('token');
+//   const role = localStorage.getItem('role');
+//   console.log(token)
+//   console.log(role)
+
+//   if (!token) {
+//     throw new Error('Token not found');
+//   }
+//   axios.post('http://localhost:5000/api/registerTeacher', formData, {
+
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Authorization': 'Bearer ' + token
+//     }
+//   })
+
+//     .then((response) => {
+//       // console.log(response.data);
+//       alert('Teacher added successfully');
+//     })
+//     .catch((error) => {
+//       console.log(error.response.data);
+//       alert(error.response.data.error);
+//       // or display the error message in the UI using state or props
+//     });
+// } finally {
+//   setSubmitting(false);
 // }
+// };

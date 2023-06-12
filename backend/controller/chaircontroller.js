@@ -499,31 +499,77 @@ exports.deleteTeacher = async (req, res) => {
 
 
 
-exports.updateTeacher = async (req, res) => {
-    let user = await User.findById(req.params.id);
-    if (!user) {
-        return res.status(500).json({
-            success: false,
-            meassage: "teacher is not found with this id "
-        })
-    }
-    if (user.role !== "teacher") {
-        return res.status(403).json({
-            success: false,
-            message: "You do not have permission to perform this action"
-        });
-    }
-    user = await User.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-        runValidators: true,
-        useUnified: false
-    });
-    res.status(200).json({
-        success: true,
-        user
+// exports.updateTeacher = async (req, res) => {
+//     let user = await User.findById(req.params.id);
+//     if (!user) {
+//         return res.status(500).json({
+//             success: false,
+//             meassage: "teacher is not found with this id "
+//         })
+//     }
+//     if (user.role !== "teacher") {
+//         return res.status(403).json({
+//             success: false,
+//             message: "You do not have permission to perform this action"
+//         });
+//     }
+//     user = await User.findByIdAndUpdate(req.params.id, req.body, {
+//         new: true,
+//         runValidators: true,
+//         useUnified: false
+//     });
+//     res.status(200).json({
+//         success: true,
+//         user
 
-    })
-}
+//     })
+// }
+
+exports.UpdateTeacher = async (req, res) => {
+    console.log(req.body, req.params);
+
+    const { department, email, name } = req.body;
+
+    try {
+        const user = await Teacher.findById(req.params.id);
+        const dept = await Department.findById(department);
+
+        console.log(dept);
+
+        if (!user || !dept) {
+            return res.status(404).json({
+                success: false,
+                message: "teacher not found",
+            });
+        }
+        if (user.role !== "teacher") {
+            return res.status(403).json({
+                success: false,
+                message: "You do not have permission to perform this action",
+            });
+        }
+
+        const updatedUser = await Teacher.findByIdAndUpdate(
+            req.params.id,
+            {
+                name,
+                email,
+                departmentName: dept.name,
+                department: dept._id,
+            },
+            { new: true, runValidators: true }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "teacehr profile updated",
+            user: updatedUser,
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+};
 
 exports.getAllQuestion = async (req, res) => {
     try {

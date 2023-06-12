@@ -101,13 +101,21 @@ import '../style/exammm.css';
 
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+
 const ExamForm = () => {
+
+    const [departmentOptions, setDepartmentOptions] = useState([]);
+    const [department, setDepartment] = useState('');
+
+
+
     const initialValues = {
         totalquestions: '',
         totalMarks: '',
         marksPerRightAnswer: '',
-        departmentId: '',
+        // departmentId: '',
         duration: '',
         startTime: '',
         pending: true,
@@ -135,6 +143,18 @@ const ExamForm = () => {
                 setSubmitting(false);
             });
     };
+    useEffect(() => {
+        axios
+            .get('http://localhost:5000/api/getAllDepartment')
+            .then((response) => {
+                setDepartmentOptions(response.data.departments);
+                console.log(response.data.departments)
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
 
     return (
         <Formik
@@ -162,11 +182,12 @@ const ExamForm = () => {
                         <Field type="number" className="form-control" id="marks" name="marks" min="1" />
                         <ErrorMessage name="marks" className="form-text text-danger" />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label htmlFor="examId" className="form-label">Department</label>
                         <Field type="text" className="form-control" id="dept" name="dept" />
                         <ErrorMessage name="dept" className="form-text text-danger" />
-                    </div>
+                    </div> */}
+
 
                     <div className="mb-3">
                         <label htmlFor="duration" className="form-label">Duration /in minutes</label>
@@ -186,6 +207,28 @@ const ExamForm = () => {
                         </div>
                         <ErrorMessage name="activateExam" className="form-text text-danger" />
                     </div>
+                    <label>
+                        <div className="select">
+                            <Field
+                                as="select"
+                                value={department}
+                                onChange={(e) => setDepartment(e.target.value)
+                                }
+                                name="department"
+                            >
+                                <option value="" disabled hidden>
+                                    Select a Department
+                                </option>
+                                {departmentOptions &&
+                                    departmentOptions.map((option) => (
+                                        <option key={option._id} value={option._id}>
+                                            {option.name}
+                                        </option>
+                                    ))}
+                            </Field>
+                            <div className="select-arrow"></div>
+                        </div>
+                    </label>
                     {/* <div className="mb-3">
                     <label htmlFor="activateExam" className="form-label">Activate Exam</label>
                     <div className="form-check">
